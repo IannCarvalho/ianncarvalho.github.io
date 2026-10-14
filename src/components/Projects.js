@@ -70,32 +70,41 @@ function ProjectCard({ project, t }) {
                     ))}
                 </Stack>
             </CardContent>
-            {(project.repo || project.demo) && (
-                <CardActions sx={{ px: 2, pb: 2 }}>
-                    {project.repo && (
-                        <Button
-                            size="small"
-                            startIcon={<GitHubIcon />}
-                            href={project.repo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {t.code}
-                        </Button>
-                    )}
-                    {project.demo && (
-                        <Button
-                            size="small"
-                            startIcon={<LaunchIcon />}
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {t.demo}
-                        </Button>
-                    )}
-                </CardActions>
-            )}
+            {(() => {
+                // Normalize to a list of {label, href}: prefer `repos` array,
+                // else fall back to a single `repo` labelled with t.code.
+                const repoLinks = project.repos && project.repos.length > 0
+                    ? project.repos
+                    : (project.repo ? [{ label: t.code, href: project.repo }] : []);
+                if (repoLinks.length === 0 && !project.demo) return null;
+                return (
+                    <CardActions sx={{ px: 2, pb: 2, flexWrap: 'wrap', gap: 0.5 }}>
+                        {repoLinks.map((r, i) => (
+                            <Button
+                                key={i}
+                                size="small"
+                                startIcon={<GitHubIcon />}
+                                href={r.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {r.label}
+                            </Button>
+                        ))}
+                        {project.demo && (
+                            <Button
+                                size="small"
+                                startIcon={<LaunchIcon />}
+                                href={project.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {t.demo}
+                            </Button>
+                        )}
+                    </CardActions>
+                );
+            })()}
         </Card>
     );
 }
