@@ -169,7 +169,7 @@ export default function Contact({ profile, t }) {
     return (
         <Box>
             <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={12} md={formEnabled ? 10 : 7}>
+                <Grid item xs={12} md={7}>
                     <ResumeCard>
                         {/* Heading */}
                         <Box sx={{ textAlign: 'center', mb: 2 }}>
@@ -186,27 +186,16 @@ export default function Contact({ profile, t }) {
                         </Box>
 
                         {formEnabled ? (
-                            /* Two columns: form on the left, channels on the right —
-                               no scrolling needed on desktop; stacks on mobile. */
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} md={7}>
-                                    <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={12}
-                                    md={5}
-                                    sx={{
-                                        borderLeft: { md: '1px solid' },
-                                        borderColor: { md: 'divider' },
-                                    }}
-                                >
-                                    <Typography variant="overline" color="text.secondary">
-                                        {t.formOrEmail}
-                                    </Typography>
-                                    <ChannelList profile={profile} />
-                                </Grid>
-                            </Grid>
+                            /* Stacked: form on top, channels below — same single-
+                               column card style as the Resume tab. */
+                            <>
+                                <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
+                                <Divider sx={{ my: 3 }} />
+                                <Typography variant="overline" color="text.secondary">
+                                    {t.formOrEmail}
+                                </Typography>
+                                <ChannelList profile={profile} />
+                            </>
                         ) : (
                             /* Fallback: no EmailJS configured — CTA + channels stacked. */
                             <>

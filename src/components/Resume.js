@@ -130,6 +130,37 @@ export default function ResumePortfolio({ profile, t }) {
                             </Typography>
                         )}
 
+                        {/* Education — placed above Skills in the sidebar. */}
+                        {profile.education && profile.education.length > 0 && (
+                            <>
+                                <Divider sx={{ mt: 2, mb: 2 }} />
+                                <SectionTitle icon={SchoolIcon}>{t.education}</SectionTitle>
+                                <Box sx={{ mt: 1.5 }}>
+                                    {profile.education.map((education, index) => (
+                                        <React.Fragment key={index}>
+                                            <Box sx={{ mb: 2 }}>
+                                                <Typography variant="subtitle2">{education.degree}</Typography>
+                                                <Typography variant="caption" color="primary.main" sx={{ display: 'block' }}>
+                                                    {education.date}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                                                    {education.school}
+                                                </Typography>
+                                                {education.gpa && (
+                                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                                                        {education.gpa}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                            {index !== profile.education.length - 1 && (
+                                                <Divider sx={{ mb: 2 }} />
+                                            )}
+                                        </React.Fragment>
+                                    ))}
+                                </Box>
+                            </>
+                        )}
+
                         {/* Skills */}
                         <Divider sx={{ mt: 2, mb: 2 }} />
                         <SectionTitle icon={PsychologyIcon}>{t.skills}</SectionTitle>
@@ -200,39 +231,6 @@ export default function ResumePortfolio({ profile, t }) {
                                             </Box>
                                         );
                                     })}
-                                </Box>
-                            </>
-                        )}
-
-                        {/* Education — moved to the narrow sidebar to balance the
-                            two columns (short text fits here now that the school
-                            name is abbreviated in TEMPLATE.js). */}
-                        {profile.education && profile.education.length > 0 && (
-                            <>
-                                <Divider sx={{ mt: 1, mb: 2 }} />
-                                <SectionTitle icon={SchoolIcon}>{t.education}</SectionTitle>
-                                <Box sx={{ mt: 1.5 }}>
-                                    {profile.education.map((education, index) => (
-                                        <React.Fragment key={index}>
-                                            <Box sx={{ mb: 2 }}>
-                                                <Typography variant="subtitle2">{education.degree}</Typography>
-                                                <Typography variant="caption" color="primary.main" sx={{ display: 'block' }}>
-                                                    {education.date}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                                                    {education.school}
-                                                </Typography>
-                                                {education.gpa && (
-                                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                                                        {education.gpa}
-                                                    </Typography>
-                                                )}
-                                            </Box>
-                                            {index !== profile.education.length - 1 && (
-                                                <Divider sx={{ mb: 2 }} />
-                                            )}
-                                        </React.Fragment>
-                                    ))}
                                 </Box>
                             </>
                         )}
