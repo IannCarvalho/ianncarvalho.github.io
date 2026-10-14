@@ -34,6 +34,7 @@ const data = {
             contacts: [
                 { icon: EmailIcon, label: "Email", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
                 { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
+                { icon: GitHubIcon, label: "GitHub", value: "github.com/IannCarvalho", href: "https://github.com/IannCarvalho" },
                 { icon: HomeIcon, label: "Location", value: "Campina Grande, Paraíba, Brazil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
             ],
             skills: [
@@ -250,6 +251,7 @@ const data = {
             contacts: [
                 { icon: EmailIcon, label: "E-mail", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
                 { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
+                { icon: GitHubIcon, label: "GitHub", value: "github.com/IannCarvalho", href: "https://github.com/IannCarvalho" },
                 { icon: HomeIcon, label: "Localização", value: "Campina Grande, Paraíba, Brasil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
             ],
             skills: [

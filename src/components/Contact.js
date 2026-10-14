@@ -17,7 +17,6 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -207,31 +206,13 @@ export default function Contact({ profile, t }) {
                                         : {})}
                                     sx={{ borderRadius: 2 }}
                                 >
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{ color: 'primary.main' }}>
                                         <contact.icon />
                                     </ListItemIcon>
                                     <ListItemText primary={contact.label} secondary={contact.value} />
                                 </ListItemButton>
                             ))}
                         </List>
-
-                        {/* Social icons */}
-                        {profile.socialMedia && profile.socialMedia.length > 0 && (
-                            <Box sx={{ mt: 1, textAlign: 'center' }}>
-                                {profile.socialMedia.map((media, index) => (
-                                    <IconButton
-                                        color="primary"
-                                        key={index}
-                                        aria-label={media.label}
-                                        {...(media.href
-                                            ? { component: 'a', href: media.href, target: '_blank', rel: 'noopener noreferrer' }
-                                            : {})}
-                                    >
-                                        <media.icon />
-                                    </IconButton>
-                                ))}
-                            </Box>
-                        )}
                     </ResumeCard>
                 </Grid>
             </Grid>
