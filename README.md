@@ -84,3 +84,20 @@ Baseado no template [react-mui-resume](https://github.com/UMLCloudComputing/reac
 ## Licença
 
 MIT — veja [LICENSE](LICENSE).
+## Formulário de contato (EmailJS)
+
+A aba **Contato** inclui um formulário que envia e-mail de verdade via [EmailJS](https://www.emailjs.com) — sem backend, já que o site é estático.
+
+O formulário só aparece quando as três variáveis de ambiente abaixo estão configuradas; caso contrário a aba degrada para os canais de contato (e-mail, LinkedIn etc.) e o build continua funcionando normalmente.
+
+Configure em **Settings → Secrets and variables → Actions → Variables** do repositório (são valores **públicos** — a public key do EmailJS é feita pra viver no bundle do front):
+
+| Variável | Onde encontrar no EmailJS |
+|---|---|
+| `REACT_APP_EMAILJS_SERVICE_ID` | Email Services → seu serviço |
+| `REACT_APP_EMAILJS_TEMPLATE_ID` | Email Templates → seu template |
+| `REACT_APP_EMAILJS_PUBLIC_KEY` | Account → General → Public Key |
+
+O template do EmailJS deve usar os campos `from_name`, `reply_to` e `message` (nomes dos inputs do formulário).
+
+Para rodar o formulário localmente, crie um arquivo `.env` na raiz com as mesmas três variáveis.

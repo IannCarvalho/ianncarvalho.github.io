@@ -37,6 +37,13 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # EmailJS config (public values) — set in repo Settings > Secrets and
+          # variables > Actions > Variables. If unset, the contact form degrades
+          # to channels-only and the build still succeeds.
+          REACT_APP_EMAILJS_SERVICE_ID: ${{ vars.REACT_APP_EMAILJS_SERVICE_ID }}
+          REACT_APP_EMAILJS_TEMPLATE_ID: ${{ vars.REACT_APP_EMAILJS_TEMPLATE_ID }}
+          REACT_APP_EMAILJS_PUBLIC_KEY: ${{ vars.REACT_APP_EMAILJS_PUBLIC_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
