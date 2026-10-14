@@ -166,6 +166,43 @@ export default function Contact({ profile, t }) {
         (c) => c.href && c.href.startsWith('mailto:')
     );
 
+    if (formEnabled) {
+        /* Two SEPARATE cards side by side: "Get in touch" (form) on the left,
+           "Or reach me directly" (channels) on the right. Each card is its own
+           box with its own border/shadow. alignItems="stretch" + height:'100%'
+           keeps both the same height. On narrow screens they stack naturally. */
+        return (
+            <Box>
+                <Grid container spacing={2} justifyContent="center" alignItems="stretch">
+                    <Grid item xs={12} md={7}>
+                        <ResumeCard sx={{ height: '100%' }}>
+                            <Typography variant="h5" component="div" sx={{ mb: 0.5 }}>
+                                {t.contactTitle}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ mb: 2, lineHeight: 1.6 }}
+                            >
+                                {t.contactSubtitle}
+                            </Typography>
+                            <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
+                        </ResumeCard>
+                    </Grid>
+                    <Grid item xs={12} md={5}>
+                        <ResumeCard sx={{ height: '100%' }}>
+                            <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                                {t.formOrEmail}
+                            </Typography>
+                            <ChannelList profile={profile} />
+                        </ResumeCard>
+                    </Grid>
+                </Grid>
+            </Box>
+        );
+    }
+
+    /* Fallback: no EmailJS configured — CTA + channels in a single centered card. */
     return (
         <Box>
             <Grid container spacing={2} justifyContent="center">
@@ -185,44 +222,28 @@ export default function Contact({ profile, t }) {
                             </Typography>
                         </Box>
 
-                        {formEnabled ? (
-                            /* Stacked: form on top, channels below — same single-
-                               column card style as the Resume tab. */
+                        {emailContact && (
                             <>
-                                <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
+                                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        size="large"
+                                        startIcon={<EmailIcon />}
+                                        href={emailContact.href}
+                                        aria-label={t.emailMe}
+                                        sx={{ textTransform: 'none', borderRadius: 2, px: 3 }}
+                                    >
+                                        {emailContact.value}
+                                    </Button>
+                                </Box>
                                 <Divider sx={{ my: 3 }} />
-                                <Typography variant="overline" color="text.secondary">
-                                    {t.formOrEmail}
-                                </Typography>
-                                <ChannelList profile={profile} />
-                            </>
-                        ) : (
-                            /* Fallback: no EmailJS configured — CTA + channels stacked. */
-                            <>
-                                {emailContact && (
-                                    <>
-                                        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                size="large"
-                                                startIcon={<EmailIcon />}
-                                                href={emailContact.href}
-                                                aria-label={t.emailMe}
-                                                sx={{ textTransform: 'none', borderRadius: 2, px: 3 }}
-                                            >
-                                                {emailContact.value}
-                                            </Button>
-                                        </Box>
-                                        <Divider sx={{ my: 3 }} />
-                                    </>
-                                )}
-                                <Typography variant="overline" color="text.secondary">
-                                    {t.contactChannels}
-                                </Typography>
-                                <ChannelList profile={profile} />
                             </>
                         )}
+                        <Typography variant="overline" color="text.secondary">
+                            {t.contactChannels}
+                        </Typography>
+                        <ChannelList profile={profile} />
                     </ResumeCard>
                 </Grid>
             </Grid>
