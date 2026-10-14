@@ -15,6 +15,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -34,6 +38,62 @@ function SectionTitle({ icon: Icon, children }) {
                 {children}
             </Typography>
         </Box>
+    );
+}
+
+// A single work-experience entry (title, date/place, bullets, stack).
+function ExperienceItem({ experience, divider }) {
+    return (
+        <>
+            <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1">{experience.title}</Typography>
+                <Typography variant="body2" sx={{ mb: 0.5 }}>
+                    {(() => {
+                        const [period, ...rest] = experience.date.split(' · ');
+                        const place = rest.join(' · ');
+                        return (
+                            <>
+                                <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
+                                    {period}
+                                </Box>
+                                {place && (
+                                    <Box component="span" sx={{ color: 'text.secondary' }}>
+                                        {' · ' + place}
+                                    </Box>
+                                )}
+                            </>
+                        );
+                    })()}
+                </Typography>
+                {experience.bullets && experience.bullets.length > 0 ? (
+                    <Box component="ul" sx={{ mt: 1, mb: 0, pl: 2.5 }}>
+                        {experience.bullets.map((point, i) => (
+                            <Typography key={i} component="li" variant="body2" sx={{ mb: 0.5 }}>
+                                {point}
+                            </Typography>
+                        ))}
+                    </Box>
+                ) : (
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                        {experience.description}
+                    </Typography>
+                )}
+                {experience.stack && experience.stack.length > 0 && (
+                    <Stack direction="row" sx={{ mt: 1.5, flexWrap: 'wrap', gap: 0.75 }}>
+                        {experience.stack.map((tag, i) => (
+                            <Chip
+                                key={i}
+                                label={tag}
+                                size="small"
+                                variant="outlined"
+                                sx={{ borderColor: 'divider', color: 'text.secondary', fontSize: '0.72rem' }}
+                            />
+                        ))}
+                    </Stack>
+                )}
+            </Box>
+            {divider && <Divider sx={{ mb: 2 }} />}
+        </>
     );
 }
 
@@ -240,57 +300,50 @@ export default function ResumePortfolio({ profile, t }) {
                     <ResumeCard>
                         <SectionTitle icon={WorkIcon}>{t.workExperience}</SectionTitle>
                         <Box sx={{ mt: 2 }}>
-                            {profile.experience.map((experience, index) => (
-                                <React.Fragment key={index}>
-                                    <Box sx={{ mb: 3 }}>
-                                        <Typography variant="subtitle1">{experience.title}</Typography>
-                                        <Typography variant="body2" sx={{ mb: 0.5 }}>
-                                            {(() => {
-                                                const [period, ...rest] = experience.date.split(' · ');
-                                                const place = rest.join(' · ');
-                                                return (
-                                                    <>
-                                                        <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
-                                                            {period}
-                                                        </Box>
-                                                        {place && (
-                                                            <Box component="span" sx={{ color: 'text.secondary' }}>
-                                                                {' · ' + place}
-                                                            </Box>
-                                                        )}
-                                                    </>
-                                                );
-                                            })()}
-                                        </Typography>
-                                        {experience.bullets && experience.bullets.length > 0 ? (
-                                            <Box component="ul" sx={{ mt: 1, mb: 0, pl: 2.5 }}>
-                                                {experience.bullets.map((point, i) => (
-                                                    <Typography key={i} component="li" variant="body2" sx={{ mb: 0.5 }}>
-                                                        {point}
+                            {(() => {
+                                const RECENT = 4;
+                                const recent = profile.experience.slice(0, RECENT);
+                                const older = profile.experience.slice(RECENT);
+                                return (
+                                    <>
+                                        {recent.map((experience, index) => (
+                                            <ExperienceItem
+                                                key={index}
+                                                experience={experience}
+                                                divider={index !== recent.length - 1 || older.length > 0}
+                                            />
+                                        ))}
+                                        {older.length > 0 && (
+                                            <Accordion
+                                                disableGutters
+                                                elevation={0}
+                                                sx={{
+                                                    bgcolor: 'transparent',
+                                                    '&:before': { display: 'none' },
+                                                }}
+                                            >
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    sx={{ px: 0, color: 'primary.main', minHeight: 0 }}
+                                                >
+                                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                                        {t.earlierExperience} ({older.length})
                                                     </Typography>
-                                                ))}
-                                            </Box>
-                                        ) : (
-                                            <Typography variant="body2" sx={{ mt: 1 }}>
-                                                {experience.description}
-                                            </Typography>
+                                                </AccordionSummary>
+                                                <AccordionDetails sx={{ px: 0, pt: 1 }}>
+                                                    {older.map((experience, index) => (
+                                                        <ExperienceItem
+                                                            key={index}
+                                                            experience={experience}
+                                                            divider={index !== older.length - 1}
+                                                        />
+                                                    ))}
+                                                </AccordionDetails>
+                                            </Accordion>
                                         )}
-                                        {experience.stack && experience.stack.length > 0 && (
-                                            <Stack direction="row" sx={{ mt: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                                                {experience.stack.map((tag, i) => (
-                                                    <Chip key={i} label={tag} size="small" variant="outlined" color="primary" />
-                                                ))}
-                                            </Stack>
-                                        )}
-                                    </Box>
-
-                                    {/* Divider but not for single or last item */}
-                                    {index !== profile.experience.length - 1 && (
-                                        <Divider sx={{ mb: 2 }} />
-                                    )}
-
-                                </React.Fragment>
-                            ))}
+                                    </>
+                                );
+                            })()}
                         </Box>
                     </ResumeCard>
 
