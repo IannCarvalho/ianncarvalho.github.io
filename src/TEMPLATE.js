@@ -55,13 +55,13 @@ const data = {
                 {
                     degree: "M.Sc. in Computer Science",
                     date: "August 2021 - November 2024",
-                    school: "Universidade Federal de Campina Grande (UFCG) - Campina Grande, PB",
+                    school: "UFCG — Campina Grande, PB",
                     gpa: "",
                 },
                 {
                     degree: "B.Sc. in Computer Science",
                     date: "June 2016 - December 2021",
-                    school: "Universidade Federal de Campina Grande (UFCG) - Campina Grande, PB",
+                    school: "UFCG — Campina Grande, PB",
                     gpa: "",
                 },
             ],
@@ -272,13 +272,13 @@ const data = {
                 {
                     degree: "Mestrado em Ciência da Computação",
                     date: "Agosto 2021 - Novembro 2024",
-                    school: "Universidade Federal de Campina Grande (UFCG) - Campina Grande, PB",
+                    school: "UFCG — Campina Grande, PB",
                     gpa: "",
                 },
                 {
                     degree: "Bacharelado em Ciência da Computação",
                     date: "Junho 2016 - Dezembro 2021",
-                    school: "Universidade Federal de Campina Grande (UFCG) - Campina Grande, PB",
+                    school: "UFCG — Campina Grande, PB",
                     gpa: "",
                 },
             ],

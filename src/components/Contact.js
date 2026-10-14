@@ -129,6 +129,35 @@ function ContactForm({ t, emailFallbackHref }) {
     );
 }
 
+// Channel list rendered from the profile data (Email, LinkedIn, GitHub,
+// Location). Icons tinted in the primary accent. Reused by both the
+// two-column (form) layout and the channels-only fallback.
+function ChannelList({ profile }) {
+    return (
+        <List component="nav" dense>
+            {profile.contacts.map((contact, index) => (
+                <ListItemButton
+                    key={index}
+                    {...(contact.href
+                        ? {
+                            component: 'a',
+                            href: contact.href,
+                            target: contact.href.startsWith('mailto:') ? undefined : '_blank',
+                            rel: 'noopener noreferrer',
+                        }
+                        : {})}
+                    sx={{ borderRadius: 2 }}
+                >
+                    <ListItemIcon sx={{ color: 'primary.main' }}>
+                        <contact.icon />
+                    </ListItemIcon>
+                    <ListItemText primary={contact.label} secondary={contact.value} />
+                </ListItemButton>
+            ))}
+        </List>
+    );
+}
+
 // Contact: dedicated section with a working message form (EmailJS) plus every
 // contact channel. All profile data comes from TEMPLATE.js; EmailJS config from
 // build-time env vars. Form degrades to channels-only when not configured.
@@ -140,10 +169,10 @@ export default function Contact({ profile, t }) {
     return (
         <Box>
             <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12} md={formEnabled ? 10 : 7}>
                     <ResumeCard>
                         {/* Heading */}
-                        <Box sx={{ textAlign: 'center', mb: 1 }}>
+                        <Box sx={{ textAlign: 'center', mb: 2 }}>
                             <Typography variant="h5" component="div">
                                 {t.contactTitle}
                             </Typography>
@@ -156,63 +185,55 @@ export default function Contact({ profile, t }) {
                             </Typography>
                         </Box>
 
-                        {/* Working form when EmailJS is configured */}
-                        {formEnabled && (
-                            <Box sx={{ mt: 2 }}>
-                                <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
-                                <Divider sx={{ my: 3 }}>
-                                    <Typography variant="caption" color="text.secondary">
+                        {formEnabled ? (
+                            /* Two columns: form on the left, channels on the right —
+                               no scrolling needed on desktop; stacks on mobile. */
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} md={7}>
+                                    <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    md={5}
+                                    sx={{
+                                        borderLeft: { md: '1px solid' },
+                                        borderColor: { md: 'divider' },
+                                    }}
+                                >
+                                    <Typography variant="overline" color="text.secondary">
                                         {t.formOrEmail}
                                     </Typography>
-                                </Divider>
-                            </Box>
-                        )}
-
-                        {/* Primary email CTA — shown prominently when there is no form */}
-                        {!formEnabled && emailContact && (
+                                    <ChannelList profile={profile} />
+                                </Grid>
+                            </Grid>
+                        ) : (
+                            /* Fallback: no EmailJS configured — CTA + channels stacked. */
                             <>
-                                <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        size="large"
-                                        startIcon={<EmailIcon />}
-                                        href={emailContact.href}
-                                        aria-label={t.emailMe}
-                                        sx={{ textTransform: 'none', borderRadius: 2, px: 3 }}
-                                    >
-                                        {emailContact.value}
-                                    </Button>
-                                </Box>
-                                <Divider sx={{ my: 3 }} />
+                                {emailContact && (
+                                    <>
+                                        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                size="large"
+                                                startIcon={<EmailIcon />}
+                                                href={emailContact.href}
+                                                aria-label={t.emailMe}
+                                                sx={{ textTransform: 'none', borderRadius: 2, px: 3 }}
+                                            >
+                                                {emailContact.value}
+                                            </Button>
+                                        </Box>
+                                        <Divider sx={{ my: 3 }} />
+                                    </>
+                                )}
+                                <Typography variant="overline" color="text.secondary">
+                                    {t.contactChannels}
+                                </Typography>
+                                <ChannelList profile={profile} />
                             </>
                         )}
-
-                        {/* All channels, derived from the data */}
-                        <Typography variant="overline" color="text.secondary">
-                            {t.contactChannels}
-                        </Typography>
-                        <List component="nav" dense>
-                            {profile.contacts.map((contact, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    {...(contact.href
-                                        ? {
-                                            component: 'a',
-                                            href: contact.href,
-                                            target: contact.href.startsWith('mailto:') ? undefined : '_blank',
-                                            rel: 'noopener noreferrer',
-                                        }
-                                        : {})}
-                                    sx={{ borderRadius: 2 }}
-                                >
-                                    <ListItemIcon sx={{ color: 'primary.main' }}>
-                                        <contact.icon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={contact.label} secondary={contact.value} />
-                                </ListItemButton>
-                            ))}
-                        </List>
                     </ResumeCard>
                 </Grid>
             </Grid>
