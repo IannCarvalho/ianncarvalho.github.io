@@ -18,6 +18,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 // Local
 import Portfolio from './components/Resume';
 import Projects from './components/Projects';
+import Contact from './components/Contact';
 import ui from './i18n';
 
 
@@ -196,6 +197,7 @@ export default function App({ data }) {
                         <Tabs value={activeTab} onChange={handleTabChange} sx={{ flexGrow: 1 }} centered>
                             <Tab label={t.tabResume} />
                             <Tab label={t.tabProjects} />
+                            <Tab label={t.tabContact} />
                         </Tabs>
                         <Tooltip title={lang === 'en' ? 'Português' : 'English'}>
                             <IconButton onClick={toggleLang} color="inherit" aria-label={t.toggleLanguage}>
@@ -232,6 +234,17 @@ export default function App({ data }) {
                                 variants={fadeInOutVariants}
                             >
                                 <Projects projects={localized.projects} t={t} />
+                            </motion.div>
+                        )}
+                        {activeTab === 2 && (
+                            <motion.div
+                                key="contact"
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                                variants={fadeInOutVariants}
+                            >
+                                <Contact profile={localized.profile} t={t} />
                             </motion.div>
                         )}
                     </AnimatePresence>

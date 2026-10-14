@@ -5,6 +5,10 @@ const ui = {
     en: {
         tabResume: "Resume",
         tabProjects: "Projects",
+        tabContact: "Contact",
+        contactTitle: "Get in touch",
+        contactSubtitle: "Open to opportunities in AI/ML and software engineering. Drop me a message.",
+        contactChannels: "Channels",
         skills: "Skills",
         about: "About",
         languages: "Spoken Languages",
@@ -25,6 +29,10 @@ const ui = {
     pt: {
         tabResume: "Currículo",
         tabProjects: "Projetos",
+        tabContact: "Contato",
+        contactTitle: "Vamos conversar",
+        contactSubtitle: "Aberto a oportunidades em IA/ML e engenharia de software. Me manda uma mensagem.",
+        contactChannels: "Canais",
         skills: "Competências",
         about: "Sobre",
         languages: "Idiomas",
