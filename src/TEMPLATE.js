@@ -66,7 +66,7 @@ const data = {
             ],
             experience: [
                 {
-                    title: "Senior AI Engineer / Lee, Brock, Camargo Advogados",
+                    title: "Tech Lead / Lee, Brock, Camargo Advogados",
                     date: "Aug 2024 - Present (2 yrs 3 mos) · São Paulo, Brazil",
                     bullets: [
                         "Architected an in-house Large Language Model (LLM) document-processing engine that eliminated 3rd-party API dependencies, cutting operational costs by an estimated ~85% and reducing document turnaround from hours to minutes.",
@@ -272,7 +272,7 @@ const data = {
             ],
             experience: [
                 {
-                    title: "Engenheiro de IA Sênior / Lee, Brock, Camargo Advogados",
+                    title: "Tech Lead / Lee, Brock, Camargo Advogados",
                     date: "Ago 2024 - Atual (2 anos 3 meses) · São Paulo, Brasil",
                     bullets: [
                         "Arquitetei um motor interno de processamento de documentos com Large Language Models (LLMs) que eliminou dependências de APIs de terceiros, reduzindo custos operacionais em ~85% e o tempo de processamento de documentos de horas para minutos.",
