@@ -15,6 +15,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import EmailIcon from '@mui/icons-material/Email';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -134,6 +136,30 @@ export default function ResumePortfolio({ profile, t }) {
                                 {profile.summaryShort}
                             </Typography>
                         )}
+
+                        {/* Contact CTA — above the fold, primary call to action.
+                            Email is derived from the contacts data (mailto item), so
+                            there is no hard-coded address to drift from TEMPLATE.js. */}
+                        {(() => {
+                            const emailContact = profile.contacts.find(
+                                (c) => c.href && c.href.startsWith('mailto:')
+                            );
+                            if (!emailContact) return null;
+                            return (
+                                <Box sx={{ mt: 2.5, display: 'flex', justifyContent: 'center' }}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<EmailIcon />}
+                                        href={emailContact.href}
+                                        aria-label={t.emailMe}
+                                        sx={{ textTransform: 'none', borderRadius: 2, px: 2.5 }}
+                                    >
+                                        {t.emailMe}
+                                    </Button>
+                                </Box>
+                            );
+                        })()}
 
                         {/* Contact Details */}
                         <Divider sx={{ mt: 2 }} />
