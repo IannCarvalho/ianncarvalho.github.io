@@ -15,6 +15,7 @@ const data = {
         profile: {
             name: "Iann Barbosa",
             address: "AI/ML Engineer · LLM Specialist · M.Sc. in Computer Science",
+            role: "AI/ML Engineer",
             summary: "Senior AI Engineer with a Master's in Computer Science (UFCG) and 5+ years of experience bridging Data Science and Software Engineering. Expert in building scalable AI-driven products — from architecting LLM pipelines, RAG systems, and autonomous agents to deploying production-ready full-stack applications. Proven track record of reducing operational costs by 85% through in-house LLM ecosystems that eliminated 3rd-party API dependencies, cutting processing turnaround time from hours to minutes. Deep expertise in LLMOps, model quantization, and cloud-native AI infrastructure (AWS).",
             summaryShort: "AI Engineer bridging Data Science and Software Engineering — LLM pipelines, RAG and autonomous agents, shipped to production.",
             avatar: "/avatar.jpg",
@@ -220,6 +221,7 @@ const data = {
         profile: {
             name: "Iann Barbosa",
             address: "Engenheiro de IA/ML · Especialista em LLMs · Mestre em Ciência da Computação",
+            role: "Engenheiro de IA/ML",
             summary: "Engenheiro de IA Sênior, Mestre em Ciência da Computação (UFCG) e com 5+ anos de experiência unindo Ciência de Dados e Engenharia de Software. Especialista em construir produtos de IA escaláveis — da arquitetura de pipelines de LLM, sistemas RAG e agentes autônomos até a implantação de aplicações full-stack prontas para produção. Histórico comprovado de redução de 85% nos custos operacionais por meio de ecossistemas de LLM internos que eliminaram dependências de APIs de terceiros, reduzindo o tempo de processamento de horas para minutos. Profundo domínio de LLMOps, quantização de modelos e infraestrutura de IA cloud-native (AWS).",
             summaryShort: "Engenheiro de IA unindo Ciência de Dados e Engenharia de Software — pipelines de LLM, RAG e agentes autônomos, levados à produção.",
             avatar: "/avatar.jpg",
