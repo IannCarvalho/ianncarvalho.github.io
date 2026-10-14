@@ -189,7 +189,7 @@ const data = {
             },
             {
                 title: "AI Engineering Study — RAG, Agents & Observability",
-                category: "AI / Machine Learning",
+                category: "Study Material",
                 period: "2026",
                 highlights: [
                     "Built a hands-on reference for modern LLM engineering: RAG pipelines, embeddings and chunking strategies over a single unified dataset.",
@@ -395,7 +395,7 @@ const data = {
             },
             {
                 title: "AI Engineering Study — RAG, Agentes & Observabilidade",
-                category: "IA / Machine Learning",
+                category: "Material de Estudo",
                 period: "2026",
                 highlights: [
                     "Construí uma referência prática de engenharia de LLMs moderna: pipelines RAG, embeddings e estratégias de chunking sobre um único dataset unificado.",
