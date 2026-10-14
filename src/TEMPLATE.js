@@ -149,7 +149,7 @@ const data = {
         projects: [
             {
                 title: "VetFlow — Multi-Service Veterinary Platform",
-                category: "Software Engineering",
+                category: "Products & Systems",
                 period: "2025",
                 highlights: [
                     "Architected a four-service system — React 19 SPA, Go (chi) REST backend, a Python MCP server and a Python agent — as independently deployable repositories, each with its own CI and tests.",
@@ -162,7 +162,7 @@ const data = {
             },
             {
                 title: "League of Legends Explorer — Full-Stack App",
-                category: "Software Engineering",
+                category: "Products & Systems",
                 period: "2025",
                 highlights: [
                     "Built a full-stack app to browse League of Legends champions and regions: a vanilla HTML/CSS/JS frontend (native ES Modules, no framework) and a Node.js/Express REST API.",
@@ -175,7 +175,7 @@ const data = {
             },
             {
                 title: "VetFlow — Conversational AI Agent & MCP Server",
-                category: "AI / Machine Learning",
+                category: "Applied AI/ML",
                 period: "2025",
                 highlights: [
                     "Built a multi-provider LLM agent (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) that answers natural-language questions over a vet clinic's real data by running a tool-use loop — grounded in the system, never hallucinated.",
@@ -202,7 +202,7 @@ const data = {
             },
             {
                 title: "AluMind Feedback Analyzer",
-                category: "AI / Machine Learning",
+                category: "Applied AI/ML",
                 period: "2025",
                 highlights: [
                     "Built an AI system that classifies user feedback by sentiment (positive / negative / inconclusive) and flags spam.",
@@ -355,7 +355,7 @@ const data = {
         projects: [
             {
                 title: "VetFlow — Plataforma Veterinária Multi-Serviço",
-                category: "Engenharia de Software",
+                category: "Produtos & Sistemas",
                 period: "2025",
                 highlights: [
                     "Arquitetei um sistema de quatro serviços — SPA React 19, backend REST em Go (chi), um servidor MCP em Python e um agente em Python — como repositórios implantáveis de forma independente, cada um com CI e testes próprios.",
@@ -368,7 +368,7 @@ const data = {
             },
             {
                 title: "League of Legends Explorer — Aplicação Full-Stack",
-                category: "Engenharia de Software",
+                category: "Produtos & Sistemas",
                 period: "2025",
                 highlights: [
                     "Construí uma aplicação full-stack para explorar campeões e regiões de League of Legends: um frontend em HTML/CSS/JS puro (ES Modules nativos, sem framework) e uma API REST Node.js/Express.",
@@ -381,7 +381,7 @@ const data = {
             },
             {
                 title: "VetFlow — Agente de IA Conversacional & Servidor MCP",
-                category: "IA / Machine Learning",
+                category: "IA/ML Aplicada",
                 period: "2025",
                 highlights: [
                     "Construí um agente LLM multi-provedor (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) que responde perguntas em linguagem natural sobre os dados reais de uma clínica veterinária executando um loop de uso de ferramentas — ancorado no sistema, nunca alucinado.",
@@ -408,7 +408,7 @@ const data = {
             },
             {
                 title: "AluMind — Analisador de Feedback",
-                category: "IA / Machine Learning",
+                category: "IA/ML Aplicada",
                 period: "2025",
                 highlights: [
                     "Construí um sistema de IA que classifica o feedback dos usuários por sentimento (positivo / negativo / inconclusivo) e sinaliza spam.",
