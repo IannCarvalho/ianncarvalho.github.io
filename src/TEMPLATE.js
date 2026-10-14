@@ -157,8 +157,12 @@ const data = {
                     "Defined explicit boundaries and contracts between the frontend, backend and AI layer, keeping each component buildable, reviewable and shippable in isolation (Vercel for the SPA, Render for the Go and Python services).",
                 ],
                 tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
-                repo: "https://github.com/IannCarvalho/vetflow",
-                demo: "https://vetflow-frontend-demo.vercel.app/",
+                repos: [
+                    { label: "Architecture", href: "https://github.com/IannCarvalho/vetflow" },
+                    { label: "Frontend", href: "https://github.com/IannCarvalho/vetflow-frontend" },
+                    { label: "Backend", href: "https://github.com/IannCarvalho/vetflow-backend" },
+                ],
+                demo: "https://vetflow-frontend-eight.vercel.app/",
             },
             {
                 title: "League of Legends Explorer — Full-Stack App",
@@ -170,7 +174,10 @@ const data = {
                     "Deployed the frontend to Vercel (continuous deploy on push) and the Express + Mongoose API to Render, backed by MongoDB Atlas.",
                 ],
                 tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
-                repo: "https://github.com/IannCarvalho/lol_front",
+                repos: [
+                    { label: "Frontend", href: "https://github.com/IannCarvalho/lol_front" },
+                    { label: "Backend", href: "https://github.com/IannCarvalho/lol_back" },
+                ],
                 demo: "https://lolfront.vercel.app",
             },
             {
@@ -184,7 +191,10 @@ const data = {
                     "Implemented JWT pass-through so the assistant acts strictly as the logged-in user, and solved a 512MB free-tier OOM by running the MCP in-process with per-request isolation via contextvars.",
                 ],
                 tech: ["Python", "FastAPI", "LiteLLM", "MCP", "LLM Agents", "AWS Bedrock"],
-                repo: "https://github.com/IannCarvalho/vetflow",
+                repos: [
+                    { label: "Agent", href: "https://github.com/IannCarvalho/vetflow-agent" },
+                    { label: "MCP", href: "https://github.com/IannCarvalho/vetflow-mcp" },
+                ],
                 demo: null,
             },
             {
@@ -363,7 +373,11 @@ const data = {
                     "Defini fronteiras e contratos explícitos entre frontend, backend e camada de IA, mantendo cada componente construível, revisável e implantável isoladamente (Vercel para a SPA, Render para os serviços Go e Python).",
                 ],
                 tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
-                repo: "https://github.com/IannCarvalho/vetflow",
+                repos: [
+                    { label: "Architecture", href: "https://github.com/IannCarvalho/vetflow" },
+                    { label: "Frontend", href: "https://github.com/IannCarvalho/vetflow-frontend" },
+                    { label: "Backend", href: "https://github.com/IannCarvalho/vetflow-backend" },
+                ],
                 demo: "https://vetflow-frontend-eight.vercel.app/",
             },
             {
@@ -376,7 +390,10 @@ const data = {
                     "Implantei o frontend na Vercel (deploy contínuo a cada push) e a API Express + Mongoose no Render, com MongoDB Atlas.",
                 ],
                 tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
-                repo: "https://github.com/IannCarvalho/lol_front",
+                repos: [
+                    { label: "Frontend", href: "https://github.com/IannCarvalho/lol_front" },
+                    { label: "Backend", href: "https://github.com/IannCarvalho/lol_back" },
+                ],
                 demo: "https://lolfront.vercel.app",
             },
             {
@@ -390,7 +407,10 @@ const data = {
                     "Implementei pass-through de JWT para o assistente agir estritamente como o usuário logado, e resolvi um OOM no free tier de 512MB rodando o MCP in-process com isolamento por requisição via contextvars.",
                 ],
                 tech: ["Python", "FastAPI", "LiteLLM", "MCP", "Agentes LLM", "AWS Bedrock"],
-                repo: "https://github.com/IannCarvalho/vetflow",
+                repos: [
+                    { label: "Agent", href: "https://github.com/IannCarvalho/vetflow-agent" },
+                    { label: "MCP", href: "https://github.com/IannCarvalho/vetflow-mcp" },
+                ],
                 demo: null,
             },
             {
