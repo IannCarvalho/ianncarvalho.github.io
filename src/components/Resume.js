@@ -7,16 +7,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import EmailIcon from '@mui/icons-material/Email';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -137,55 +130,8 @@ export default function ResumePortfolio({ profile, t }) {
                             </Typography>
                         )}
 
-                        {/* Contact CTA — above the fold, primary call to action.
-                            Email is derived from the contacts data (mailto item), so
-                            there is no hard-coded address to drift from TEMPLATE.js. */}
-                        {(() => {
-                            const emailContact = profile.contacts.find(
-                                (c) => c.href && c.href.startsWith('mailto:')
-                            );
-                            if (!emailContact) return null;
-                            return (
-                                <Box sx={{ mt: 2.5, display: 'flex', justifyContent: 'center' }}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        startIcon={<EmailIcon />}
-                                        href={emailContact.href}
-                                        aria-label={t.emailMe}
-                                        sx={{ textTransform: 'none', borderRadius: 2, px: 2.5 }}
-                                    >
-                                        {t.emailMe}
-                                    </Button>
-                                </Box>
-                            );
-                        })()}
-
-                        {/* Contact Details */}
-                        <Divider sx={{ mt: 2 }} />
-                        <List component="nav" dense>
-                            {profile.contacts.map((contact, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    {...(contact.href
-                                        ? {
-                                            component: 'a',
-                                            href: contact.href,
-                                            target: contact.href.startsWith('mailto:') ? undefined : '_blank',
-                                            rel: 'noopener noreferrer',
-                                        }
-                                        : {})}
-                                >
-                                    <ListItemIcon>
-                                        <contact.icon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={contact.label} secondary={contact.value} />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                        <Divider sx={{ mb: 2 }} />
-
                         {/* Skills */}
+                        <Divider sx={{ mt: 2, mb: 2 }} />
                         <SectionTitle icon={PsychologyIcon}>{t.skills}</SectionTitle>
                         <Box sx={{ mt: 1 }}>
                             {profile.skills.map((skill, index) => (
@@ -257,27 +203,6 @@ export default function ResumePortfolio({ profile, t }) {
                                 </Box>
                             </>
                         )}
-                    </ResumeCard>
-
-                    {/* Social Media Links */}
-                    <ResumeCard>
-                        <Typography variant="h6" component="div" sx={{ textAlign: 'center' }}>
-                            {t.socialMedia}
-                        </Typography>
-                        <Box sx={{ mt: 2, textAlign: 'center' }}>
-                            {profile.socialMedia.map((media, index) => (
-                                <IconButton
-                                    color="primary"
-                                    key={index}
-                                    aria-label={media.label}
-                                    {...(media.href
-                                        ? { component: 'a', href: media.href, target: '_blank', rel: 'noopener noreferrer' }
-                                        : {})}
-                                >
-                                    <media.icon />
-                                </IconButton>
-                            ))}
-                        </Box>
                     </ResumeCard>
                 </Grid>
 
