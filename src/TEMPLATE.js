@@ -157,7 +157,7 @@ const data = {
                 ],
                 tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
                 repo: "https://github.com/IannCarvalho/vetflow",
-                demo: "https://vetflow-frontend-eight.vercel.app/",
+                demo: "https://vetflow-frontend-demo.vercel.app/",
             },
             {
                 title: "League of Legends Explorer — Full-Stack App",
