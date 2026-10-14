@@ -33,7 +33,7 @@ const data = {
             contacts: [
                 { icon: EmailIcon, label: "Email", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
                 { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: HomeIcon, label: "Location", value: "Campina Grande, Paraíba, Brazil" }
+                { icon: HomeIcon, label: "Location", value: "Campina Grande, Paraíba, Brazil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
             ],
             skills: [
                 { category: "LLM & GenAI", skills: ["LLMs", "RAG", "Prompt Engineering", "Autonomous Agents", "LangChain", "LangGraph", "LlamaIndex", "Model Context Protocol (MCP)", "Jailbreak Defense"] },
@@ -238,7 +238,7 @@ const data = {
             contacts: [
                 { icon: EmailIcon, label: "E-mail", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
                 { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: HomeIcon, label: "Localização", value: "Campina Grande, Paraíba, Brasil" }
+                { icon: HomeIcon, label: "Localização", value: "Campina Grande, Paraíba, Brasil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
             ],
             skills: [
                 { category: "LLM & GenAI", skills: ["LLMs", "RAG", "Engenharia de Prompt", "Agentes Autônomos", "LangChain", "LangGraph", "LlamaIndex", "Model Context Protocol (MCP)", "Defesa contra Jailbreak"] },
