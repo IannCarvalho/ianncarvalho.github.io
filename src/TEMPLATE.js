@@ -171,6 +171,7 @@ const data = {
                 ],
                 tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
                 repo: "https://github.com/IannCarvalho/lol_front",
+                repoBackend: "https://github.com/IannCarvalho/lol_back",
                 demo: "https://lolfront.vercel.app",
             },
             {
@@ -377,6 +378,7 @@ const data = {
                 ],
                 tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
                 repo: "https://github.com/IannCarvalho/lol_front",
+                repoBackend: "https://github.com/IannCarvalho/lol_back",
                 demo: "https://lolfront.vercel.app",
             },
             {

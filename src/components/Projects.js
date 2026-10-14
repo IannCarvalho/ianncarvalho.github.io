@@ -70,7 +70,7 @@ function ProjectCard({ project, t }) {
                     ))}
                 </Stack>
             </CardContent>
-            {(project.repo || project.demo) && (
+            {(project.repo || project.repoBackend || project.demo) && (
                 <CardActions sx={{ px: 2, pb: 2 }}>
                     {project.repo && (
                         <Button
@@ -80,7 +80,18 @@ function ProjectCard({ project, t }) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {t.code}
+                            {project.repoBackend ? 'Frontend' : t.code}
+                        </Button>
+                    )}
+                    {project.repoBackend && (
+                        <Button
+                            size="small"
+                            startIcon={<GitHubIcon />}
+                            href={project.repoBackend}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Backend
                         </Button>
                     )}
                     {project.demo && (
