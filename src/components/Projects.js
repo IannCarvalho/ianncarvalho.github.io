@@ -58,9 +58,15 @@ function ProjectCard({ project, t }) {
                         {project.description}
                     </Typography>
                 )}
-                <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap', gap: 1 }}>
-                    {project.tech.map((t, i) => (
-                        <Chip key={i} label={t} size="small" variant="outlined" color="primary" />
+                <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap', gap: 0.75 }}>
+                    {project.tech.map((techLabel, i) => (
+                        <Chip
+                            key={i}
+                            label={techLabel}
+                            size="small"
+                            variant="outlined"
+                            sx={{ borderColor: 'divider', color: 'text.secondary', fontSize: '0.72rem' }}
+                        />
                     ))}
                 </Stack>
             </CardContent>
