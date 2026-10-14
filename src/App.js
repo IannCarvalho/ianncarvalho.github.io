@@ -152,17 +152,25 @@ export default function App({ data }) {
         setActiveTab(newValue);
     };
 
-    const updateFavicon = (tabIndex) => {
+    // Build an "IB" monogram favicon as an inline SVG data-URI (crisp at 16px,
+    // on-brand, no image file). Sets the tab title to name + role.
+    const updateFavicon = () => {
+        const accent = '#58a6ff';
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">`
+            + `<rect width="64" height="64" rx="14" fill="#0d1117"/>`
+            + `<text x="50%" y="50%" dy="2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="${accent}" text-anchor="middle" dominant-baseline="middle">IB</text>`
+            + `</svg>`;
+        const href = 'data:image/svg+xml,' + encodeURIComponent(svg);
         const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-        link.type = 'image/x-icon';
-        link.rel = 'shortcut icon';
-        link.href = `${localized.profile.avatar}`;
-        document.title = `${localized.profile.name}`;
+        link.type = 'image/svg+xml';
+        link.rel = 'icon';
+        link.href = href;
         document.getElementsByTagName('head')[0].appendChild(link);
+        document.title = `${localized.profile.name} — ${localized.profile.role || 'AI/ML Engineer'}`;
     };
 
     React.useEffect(() => {
-        updateFavicon(activeTab); // Update favicon/title on load, tab change and language change
+        updateFavicon(); // Update favicon/title on load, tab change and language change
         // eslint-disable-next-line
     }, [activeTab, lang]);
 
