@@ -41,23 +41,6 @@ function SectionTitle({ icon: Icon, children }) {
 export default function ResumePortfolio({ profile, t }) {
     return (
         <Box>
-            {/* Professional summary — full-width highlight at the top */}
-            {profile.summary && (
-                <Box
-                    sx={{
-                        mb: 2,
-                        p: 2.5,
-                        borderRadius: 3,
-                        bgcolor: 'background.paper',
-                        borderLeft: '3px solid',
-                        borderColor: 'primary.main',
-                    }}
-                >
-                    <Typography variant="body1" color="text.primary" sx={{ lineHeight: 1.7 }}>
-                        {profile.summary}
-                    </Typography>
-                </Box>
-            )}
             <Grid container spacing={2}>
 
                 {/* Left Column */}
@@ -79,6 +62,24 @@ export default function ResumePortfolio({ profile, t }) {
                             </Typography>
                             {/* ... other personal information */}
                         </Box>
+
+                        {/* Professional summary — right under name/title */}
+                        {profile.summary && (
+                            <Box
+                                sx={{
+                                    mt: 2,
+                                    p: 1.5,
+                                    borderRadius: 2,
+                                    borderLeft: '3px solid',
+                                    borderColor: 'primary.main',
+                                    bgcolor: 'action.hover',
+                                }}
+                            >
+                                <Typography variant="body2" color="text.primary" sx={{ lineHeight: 1.65 }}>
+                                    {profile.summary}
+                                </Typography>
+                            </Box>
+                        )}
 
                         {/* Contact Details */}
                         <Divider sx={{ mt: 2 }} />
