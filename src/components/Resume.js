@@ -15,9 +15,26 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import SchoolIcon from '@mui/icons-material/School';
+import WorkIcon from '@mui/icons-material/Work';
+import ArticleIcon from '@mui/icons-material/Article';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 // Local
 import ResumeCard from './ResumeCard';
+
+// Section heading with a leading icon, for consistent visual anchors.
+function SectionTitle({ icon: Icon, children }) {
+    return (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Icon fontSize="small" color="primary" />
+            <Typography variant="h6" component="div">
+                {children}
+            </Typography>
+        </Box>
+    );
+}
 
 
 // ResumePortfolio: A React component that displays a resume/portfolio.
@@ -88,9 +105,7 @@ export default function ResumePortfolio({ profile, t }) {
                         <Divider sx={{ mb: 2 }} />
 
                         {/* Skills */}
-                        <Typography variant="h6" component="div" sx={{ mt: 2 }}>
-                            {t.skills}
-                        </Typography>
+                        <SectionTitle icon={PsychologyIcon}>{t.skills}</SectionTitle>
                         <Box sx={{ mt: 1 }}>
                             {profile.skills.map((skill, index) => (
                                 <Box key={index} sx={{ mb: 2 }}>
@@ -120,21 +135,43 @@ export default function ResumePortfolio({ profile, t }) {
                         {profile.languages && profile.languages.length > 0 && (
                             <>
                                 <Divider sx={{ mt: 1, mb: 2 }} />
-                                <Typography variant="h6" component="div">
-                                    {t.languages}
-                                </Typography>
+                                <SectionTitle icon={TranslateIcon}>{t.languages}</SectionTitle>
                                 <Box sx={{ mt: 1 }}>
-                                    {profile.languages.map((language, index) => (
-                                        <Box
-                                            key={index}
-                                            sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}
-                                        >
-                                            <Typography variant="body2">{language.label}</Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {language.level}
-                                            </Typography>
-                                        </Box>
-                                    ))}
+                                    {profile.languages.map((language, index) => {
+                                        // Map textual level to a 0-3 strength for the dots.
+                                        const lvl = language.level.toLowerCase();
+                                        const strength =
+                                            lvl.includes('nativ') ? 3
+                                            : (lvl.includes('advanc') || lvl.includes('avanç')) ? 3
+                                            : (lvl.includes('intermed')) ? 2
+                                            : 1;
+                                        return (
+                                            <Box
+                                                key={index}
+                                                sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.75 }}
+                                            >
+                                                <Typography variant="body2">{language.label}</Typography>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <Typography variant="caption" color="text.secondary">
+                                                        {language.level}
+                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', gap: 0.4 }}>
+                                                        {[1, 2, 3].map((d) => (
+                                                            <Box
+                                                                key={d}
+                                                                sx={{
+                                                                    width: 7,
+                                                                    height: 7,
+                                                                    borderRadius: '50%',
+                                                                    bgcolor: d <= strength ? 'primary.main' : 'divider',
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                        );
+                                    })}
                                 </Box>
                             </>
                         )}
@@ -167,9 +204,7 @@ export default function ResumePortfolio({ profile, t }) {
 
                     {/* Education */}
                     <ResumeCard>
-                        <Typography variant="h6" component="div">
-                            {t.education}
-                        </Typography>
+                        <SectionTitle icon={SchoolIcon}>{t.education}</SectionTitle>
                         <Box sx={{ mt: 2 }}>
                             {profile.education.map((education, index) => (
                                 <React.Fragment key={index}>
@@ -198,9 +233,7 @@ export default function ResumePortfolio({ profile, t }) {
 
                     {/* Work Experience */}
                     <ResumeCard>
-                        <Typography variant="h6" component="div">
-                            {t.workExperience}
-                        </Typography>
+                        <SectionTitle icon={WorkIcon}>{t.workExperience}</SectionTitle>
                         <Box sx={{ mt: 2 }}>
                             {profile.experience.map((experience, index) => (
                                 <React.Fragment key={index}>
@@ -259,9 +292,7 @@ export default function ResumePortfolio({ profile, t }) {
                     {/* Publications */}
                     {profile.publications && profile.publications.length > 0 && (
                         <ResumeCard>
-                            <Typography variant="h6" component="div">
-                                {t.publications}
-                            </Typography>
+                            <SectionTitle icon={ArticleIcon}>{t.publications}</SectionTitle>
                             <Box sx={{ mt: 2 }}>
                                 {profile.publications.map((pub, index) => (
                                     <Box key={index} sx={{ mb: index !== profile.publications.length - 1 ? 2 : 0 }}>
