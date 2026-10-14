@@ -1,0 +1,142 @@
+// React
+import React from 'react';
+
+// MUI
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LaunchIcon from '@mui/icons-material/Launch';
+
+
+// A single project card.
+function ProjectCard({ project, t }) {
+    return (
+        <Card sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            transition: 'transform 0.2s ease, border-color 0.2s ease',
+            '&:hover': {
+                transform: 'translateY(-4px)',
+                borderColor: 'primary.main',
+            },
+        }}>
+            <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" component="div" gutterBottom>
+                    {project.title}
+                </Typography>
+                {project.period && (
+                    <Typography variant="caption" color="text.secondary">
+                        {project.period}
+                    </Typography>
+                )}
+                {project.highlights && project.highlights.length > 0 ? (
+                    <Box
+                        component="ul"
+                        sx={{ mt: 1.5, mb: 0, pl: 2.5, color: 'text.secondary' }}
+                    >
+                        {project.highlights.map((point, i) => (
+                            <Typography
+                                key={i}
+                                component="li"
+                                variant="body2"
+                                sx={{ mb: 0.75 }}
+                            >
+                                {point}
+                            </Typography>
+                        ))}
+                    </Box>
+                ) : (
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
+                        {project.description}
+                    </Typography>
+                )}
+                <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap', gap: 1 }}>
+                    {project.tech.map((t, i) => (
+                        <Chip key={i} label={t} size="small" variant="outlined" color="primary" />
+                    ))}
+                </Stack>
+            </CardContent>
+            {(project.repo || project.demo) && (
+                <CardActions sx={{ px: 2, pb: 2 }}>
+                    {project.repo && (
+                        <Button
+                            size="small"
+                            startIcon={<GitHubIcon />}
+                            href={project.repo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {t.code}
+                        </Button>
+                    )}
+                    {project.demo && (
+                        <Button
+                            size="small"
+                            startIcon={<LaunchIcon />}
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {t.demo}
+                        </Button>
+                    )}
+                </CardActions>
+            )}
+        </Card>
+    );
+}
+
+
+// Projects: personal-project cards, grouped by category.
+export default function Projects({ projects, t }) {
+
+    // Group projects by category, preserving first-seen order.
+    const groups = [];
+    const indexByCategory = {};
+    projects.forEach((project) => {
+        const category = project.category || '—';
+        if (indexByCategory[category] === undefined) {
+            indexByCategory[category] = groups.length;
+            groups.push({ category, items: [] });
+        }
+        groups[indexByCategory[category]].items.push(project);
+    });
+
+    return (
+        <Box sx={{ mb: 10 }}>
+            <Typography variant="h5" component="div" sx={{ mb: 1, textAlign: 'center' }}>
+                {t.projectsTitle}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
+                {t.projectsSubtitle}
+            </Typography>
+
+            {groups.map((group, gi) => (
+                <Box key={gi} sx={{ mb: 4 }}>
+                    <Typography
+                        variant="overline"
+                        color="primary"
+                        sx={{ display: 'block', mb: 1.5, letterSpacing: 1 }}
+                    >
+                        {group.category}
+                    </Typography>
+                    <Grid container spacing={2}>
+                        {group.items.map((project, index) => (
+                            <Grid item xs={12} md={6} key={index}>
+                                <ProjectCard project={project} t={t} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            ))}
+        </Box>
+    );
+}
