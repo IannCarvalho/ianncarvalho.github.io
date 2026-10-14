@@ -193,13 +193,14 @@ export default function ResumePortfolio({ profile, t }) {
                                 <SectionTitle icon={TranslateIcon}>{t.languages}</SectionTitle>
                                 <Box sx={{ mt: 1 }}>
                                     {profile.languages.map((language, index) => {
-                                        // Map textual level to a 0-3 strength for the dots.
+                                        // Map textual level to a 0-4 strength for the dots.
                                         const lvl = language.level.toLowerCase();
                                         const strength =
-                                            lvl.includes('nativ') ? 3
+                                            (lvl.includes('nativ')) ? 4
                                             : (lvl.includes('advanc') || lvl.includes('avanç')) ? 3
-                                            : (lvl.includes('intermed')) ? 2
-                                            : 1;
+                                            : (lvl.includes('intermed')) ? 3
+                                            : (lvl.includes('basic') || lvl.includes('básic') || lvl.includes('basico')) ? 1
+                                            : 2;
                                         return (
                                             <Box
                                                 key={index}
@@ -211,7 +212,7 @@ export default function ResumePortfolio({ profile, t }) {
                                                         {language.level}
                                                     </Typography>
                                                     <Box sx={{ display: 'flex', gap: 0.4 }}>
-                                                        {[1, 2, 3].map((d) => (
+                                                        {[1, 2, 3, 4].map((d) => (
                                                             <Box
                                                                 key={d}
                                                                 sx={{
