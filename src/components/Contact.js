@@ -169,13 +169,15 @@ export default function Contact({ profile, t }) {
     if (formEnabled) {
         /* Two SEPARATE cards side by side: "Get in touch" (form) on the left,
            "Or reach me directly" (channels) on the right. Each card is its own
-           box with its own border/shadow. alignItems="stretch" + height:'100%'
-           keeps both the same height. On narrow screens they stack naturally. */
+           box with its own border/shadow. The right card is narrower (md=4) and
+           NOT stretched — alignItems="flex-start" lets it size to its content
+           (the four channels) instead of matching the taller form. On narrow
+           screens they stack naturally. */
         return (
             <Box>
-                <Grid container spacing={2} justifyContent="center" alignItems="stretch">
-                    <Grid item xs={12} md={7}>
-                        <ResumeCard sx={{ height: '100%' }}>
+                <Grid container spacing={2} justifyContent="center" alignItems="flex-start">
+                    <Grid item xs={12} md={8}>
+                        <ResumeCard>
                             <Typography variant="h5" component="div" sx={{ mb: 0.5 }}>
                                 {t.contactTitle}
                             </Typography>
@@ -189,8 +191,8 @@ export default function Contact({ profile, t }) {
                             <ContactForm t={t} emailFallbackHref={emailContact && emailContact.href} />
                         </ResumeCard>
                     </Grid>
-                    <Grid item xs={12} md={5}>
-                        <ResumeCard sx={{ height: '100%' }}>
+                    <Grid item xs={12} md={4}>
+                        <ResumeCard>
                             <Typography variant="h6" component="div" sx={{ mb: 2 }}>
                                 {t.formOrEmail}
                             </Typography>
