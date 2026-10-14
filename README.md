@@ -1,96 +1,86 @@
-# React Material-UI Portfolio
+# Portfólio — Iann Carvalho
 
-A responsive and dynamic portfolio website, built with React and MUI (formerly Material-UI) v5 for Computer Science students at UMass Lowell. The website is designed to be easily customizable, allowing students to quickly create a portfolio to showcase their skills and experiences.
+Site pessoal de portfólio (AI/ML Engineer), construído em **React + MUI v5** e publicado no **GitHub Pages** em [ianncarvalho.github.io](https://ianncarvalho.github.io).
 
-![Demo](./demo1.png)
+Single-page application com seções de resumo, experiência, skills, idiomas e projetos pessoais, com **internacionalização EN/PT** e deploy contínuo a cada push na `main`.
 
-- Template inspired from W3Schools' [Portfolio Template](https://www.w3schools.com/howto/tryw3css_templates_cv.htm)
-- Resume template from UML Career Services for [Computer Science majors](https://www.uml.edu/docs/Effective-Resume-Guide-Rev1_tcm18-312086.pdf)
+## Stack
 
-You can view a demo of the portfolio here: https://codesandbox.io/p/github/UMLCloudComputing/react-mui-resume/main
+- **React 18** com Create React App (`react-scripts`)
+- **MUI v5** (Material-UI) para o design system
+- **i18n EN/PT** — alternância de idioma em tempo real
+- **GitHub Pages** + **GitHub Actions** para deploy automático
 
-You can see a customized demo version live here: https://www.cs.uml.edu/~mmarwad/
+## Estrutura
 
-## Tutorial 
-
-This guide is for students who want to host their portfolio on the UML CS servers. This guide assumes you have a CS linux account on the UML CS servers. If you do not have a CS linux account, please contact the CS department.
-
-### Connect to UML CS Server & Install Node.js
-
-Connect to the UML CS servers using SSH. If you are not on campus wifi, then you will need to use the [UML VPN](https://www.uml.edu/it/services/get-connected/remote-access/). 
-
-```bash
-ssh <cs-username-here>@cs.uml.edu
+```
+src/
+├── index.js         # entrypoint — importa os dados de TEMPLATE.js
+├── App.js           # layout raiz e troca de idioma
+├── i18n.js          # strings e labels traduzíveis (EN/PT)
+├── TEMPLATE.js      # TODO o conteúdo do portfólio (dados por idioma)
+└── components/
+    ├── Resume.js        # cabeçalho / resumo
+    ├── ResumeCard.js    # cartão de experiência
+    ├── Projects.js      # grade de cards de projeto (botões Code/Demo)
+    └── SocialFeed.js    # links sociais
 ```
 
-Now that you are connected to the CS servers, you will need to install Node.js. We will be using nvm to install Node.js. 
-```bash
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-```
+> Todo o **conteúdo** (resumo, experiências, skills, idiomas, projetos) vive em `src/TEMPLATE.js`, separado por idioma. Para atualizar o portfólio, edita esse arquivo — não precisa tocar nos componentes.
 
-Source the bashrc file to use nvm.
-```bash
-source ~/.bashrc
-```
+## Rodando localmente
 
-Now that nvm is installed, we can install Node.js. We will be using Node.js v18.
-```bash
-nvm install v18
-```
+Requer **Node.js 20** (mesma versão do CI).
 
-```bash
-nvm use v18
-```
-
-### Clone the Repository
-
-Clone the repository and install the dependencies.
-```bash
-git clone https://github.com/UMLCloudComputing/react-mui-resume
-```
-
-Change directory into the repository.
-```bash
-cd react-mui-resume
-```
-
-Install the JavaScript dependencies.
 ```bash
 npm install
+npm start
 ```
 
-### Build and Deploy to `public_html` Folder
+Abre em [http://localhost:3000](http://localhost:3000) com hot-reload.
 
-Build the project. This will create a `build` folder with the static HTML files. Make sure to replace `cs-username-here` with your CS username. This is needed to set the `PUBLIC_URL` environment variable, which is used to set the base URL for the static files.
+> Os scripts usam `NODE_OPTIONS=--openssl-legacy-provider` (via `cross-env`) para compatibilidade do `react-scripts` com Node moderno.
+
+## Build
 
 ```bash
-PUBLIC_URL=https://www.cs.uml.edu/~<cs-username-here>/ npm run build
+npm run build
 ```
 
-Copy the contents of the `build` folder into the `public_html` folder. This folder is used to host static files on the CS servers.
+Gera a pasta `build/` com os arquivos estáticos de produção.
 
-```bash
-cp -r build/* ~/public_html/
+## Deploy
+
+O deploy é **automático**: todo push na `main` dispara o workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), que builda o CRA com Node 20 e publica no GitHub Pages via `actions/deploy-pages`.
+
+- Usa o `GITHUB_TOKEN` automático do repo — **não precisa de secret nem token manual**.
+- Também pode ser disparado manualmente pela aba **Actions** (`workflow_dispatch`).
+- `concurrency` garante um deploy de cada vez, cancelando o anterior em andamento.
+
+Depois do deploy, o site atualiza em [ianncarvalho.github.io](https://ianncarvalho.github.io) em 1–2 minutos.
+
+## Customização
+
+Para adaptar o conteúdo, edite `src/TEMPLATE.js`. Cada card de projeto aceita:
+
+```js
+{
+    title: "Nome do Projeto",
+    category: "Software Engineering",   // agrupa os cards
+    period: "2025",
+    highlights: ["...", "..."],          // bullets
+    tech: ["React", "Go", "..."],        // chips de tecnologia
+    repo: "https://github.com/...",      // botão "Code" (opcional)
+    demo: "https://...",                 // botão "Demo" (opcional; null = sem botão)
+}
 ```
 
-Change the permissions of the `public_html` folder to `755`. This will allow the web server to access the files.
+Para mudanças de layout ou estilo, edite os componentes em `src/components/` usando MUI.
 
-```bash
-chmod -R 755 ~/public_html/
-```
+## Créditos
 
-### View Your Portfolio
+Baseado no template [react-mui-resume](https://github.com/UMLCloudComputing/react-mui-resume) (UMass Lowell Cloud Computing Club), sob licença MIT.
 
-You can now view your portfolio at `https://www.cs.uml.edu/~<cs username here>/`. 
+## Licença
 
-This will show the default portfolio. You can now customize the portfolio to your liking.
-
-## Customization
-
-To customize the portfolio, you can edit the `src/TEMPLATE.js` file. This file contains a JavaScript object with all the information for the portfolio. Feel free to edit it to your liking.
-
-Additionally, if you are familiar with React, you can edit the React components in the `/src` folder and customize the portfolio even further using MUI components and styling.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — veja [LICENSE](LICENSE).
