@@ -24,6 +24,23 @@ import ResumeCard from './ResumeCard';
 export default function ResumePortfolio({ profile, t }) {
     return (
         <Box>
+            {/* Professional summary — full-width highlight at the top */}
+            {profile.summary && (
+                <Box
+                    sx={{
+                        mb: 2,
+                        p: 2.5,
+                        borderRadius: 3,
+                        bgcolor: 'background.paper',
+                        borderLeft: '3px solid',
+                        borderColor: 'primary.main',
+                    }}
+                >
+                    <Typography variant="body1" color="text.primary" sx={{ lineHeight: 1.7 }}>
+                        {profile.summary}
+                    </Typography>
+                </Box>
+            )}
             <Grid container spacing={2}>
 
                 {/* Left Column */}
@@ -32,21 +49,19 @@ export default function ResumePortfolio({ profile, t }) {
                     {/* Profile */}
                     <ResumeCard>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Avatar alt={profile.name} src={profile.avatar} sx={{ width: 100, height: 100 }} />
+                            <Avatar
+                                alt={profile.name}
+                                src={profile.avatar}
+                                sx={{ width: 100, height: 100, border: '2px solid', borderColor: 'primary.main' }}
+                            />
                             <Typography variant="h5" component="div" sx={{ mt: 2 }}>
                                 {profile.name}
                             </Typography>
-                            <Typography color="text.secondary" sx={{ mt: 1 }}>
+                            <Typography color="text.secondary" sx={{ mt: 1, textAlign: 'center' }}>
                                 {profile.address}
                             </Typography>
                             {/* ... other personal information */}
                         </Box>
-
-                        {profile.summary && (
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                                {profile.summary}
-                            </Typography>
-                        )}
 
                         {/* Contact Details */}
                         <Divider sx={{ mt: 2 }} />
@@ -82,9 +97,19 @@ export default function ResumePortfolio({ profile, t }) {
                                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                                         {skill.category}
                                     </Typography>
-                                    <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
+                                    <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 0.75 }}>
                                         {skill.skills.map((tag, i) => (
-                                            <Chip key={i} label={tag} size="small" variant="outlined" color="primary" />
+                                            <Chip
+                                                key={i}
+                                                label={tag}
+                                                size="small"
+                                                variant="outlined"
+                                                sx={{
+                                                    borderColor: 'divider',
+                                                    color: 'text.secondary',
+                                                    fontSize: '0.72rem',
+                                                }}
+                                            />
                                         ))}
                                     </Stack>
                                 </Box>
@@ -181,7 +206,24 @@ export default function ResumePortfolio({ profile, t }) {
                                 <React.Fragment key={index}>
                                     <Box sx={{ mb: 3 }}>
                                         <Typography variant="subtitle1">{experience.title}</Typography>
-                                        <Typography variant="body2" color="text.secondary">{experience.date}</Typography>
+                                        <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                            {(() => {
+                                                const [period, ...rest] = experience.date.split(' · ');
+                                                const place = rest.join(' · ');
+                                                return (
+                                                    <>
+                                                        <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
+                                                            {period}
+                                                        </Box>
+                                                        {place && (
+                                                            <Box component="span" sx={{ color: 'text.secondary' }}>
+                                                                {' · ' + place}
+                                                            </Box>
+                                                        )}
+                                                    </>
+                                                );
+                                            })()}
+                                        </Typography>
                                         {experience.bullets && experience.bullets.length > 0 ? (
                                             <Box component="ul" sx={{ mt: 1, mb: 0, pl: 2.5 }}>
                                                 {experience.bullets.map((point, i) => (

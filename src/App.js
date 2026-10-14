@@ -12,7 +12,7 @@ import Tab from '@mui/material/Tab';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import TranslateIcon from '@mui/icons-material/Translate';
 
 // Local
@@ -199,7 +199,7 @@ export default function App({ data }) {
                         </Tooltip>
                         <Tooltip title={mode === 'dark' ? t.themeToLight : t.themeToDark}>
                             <IconButton onClick={toggleMode} color="inherit" aria-label={t.toggleTheme}>
-                                {mode === 'dark' ? <Brightness7Icon /> : <DarkModeIcon />}
+                                {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
                             </IconButton>
                         </Tooltip>
                     </Box>
