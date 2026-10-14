@@ -20,6 +20,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import TranslateIcon from '@mui/icons-material/Translate';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Local
 import ResumeCard from './ResumeCard';
@@ -63,22 +64,15 @@ export default function ResumePortfolio({ profile, t }) {
                             {/* ... other personal information */}
                         </Box>
 
-                        {/* Professional summary — right under name/title */}
-                        {profile.summary && (
-                            <Box
-                                sx={{
-                                    mt: 2,
-                                    p: 1.5,
-                                    borderRadius: 2,
-                                    borderLeft: '3px solid',
-                                    borderColor: 'primary.main',
-                                    bgcolor: 'action.hover',
-                                }}
+                        {/* Short tagline — right under name/title, light visual */}
+                        {profile.summaryShort && (
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ mt: 1.5, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.6 }}
                             >
-                                <Typography variant="body2" color="text.primary" sx={{ lineHeight: 1.65 }}>
-                                    {profile.summary}
-                                </Typography>
-                            </Box>
+                                {profile.summaryShort}
+                            </Typography>
                         )}
 
                         {/* Contact Details */}
@@ -202,6 +196,16 @@ export default function ResumePortfolio({ profile, t }) {
 
                 {/* Right Column */}
                 <Grid item xs={12} md={8}>
+
+                    {/* About — full professional summary, wide column */}
+                    {profile.summary && (
+                        <ResumeCard>
+                            <SectionTitle icon={PersonIcon}>{t.about}</SectionTitle>
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5, lineHeight: 1.7 }}>
+                                {profile.summary}
+                            </Typography>
+                        </ResumeCard>
+                    )}
 
                     {/* Education */}
                     <ResumeCard>
