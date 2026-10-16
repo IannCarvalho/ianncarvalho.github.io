@@ -27,9 +27,13 @@ function ProjectCard({ project, t }) {
                 transform: 'translateY(-4px)',
                 borderColor: 'primary.main',
             },
+            '@media (prefers-reduced-motion: reduce)': {
+                transition: 'border-color 0.2s ease',
+                '&:hover': { transform: 'none' },
+            },
         }}>
             <CardContent sx={{ flexGrow: 1 }}>
-                <Typography variant="h6" component="div" gutterBottom>
+                <Typography variant="h6" component="h3" gutterBottom>
                     {project.title}
                 </Typography>
                 {project.period && (
@@ -137,7 +141,7 @@ export default function Projects({ projects, t }) {
 
     return (
         <Box sx={{ mb: 10 }}>
-            <Typography variant="h5" component="div" sx={{ mb: 1, textAlign: 'center' }}>
+            <Typography variant="h5" component="h1" sx={{ mb: 1, textAlign: 'center' }}>
                 {t.projectsTitle}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
@@ -148,6 +152,7 @@ export default function Projects({ projects, t }) {
                 <Box key={gi} sx={{ mb: 4 }}>
                     <Typography
                         variant="overline"
+                        component="h2"
                         color="primary"
                         sx={{ display: 'block', mb: 1.5, letterSpacing: 1 }}
                     >

@@ -126,6 +126,26 @@ const getInitialLang = () => {
     return 'en';
 };
 
+// The active tab lives in the URL hash, so a tab can be linked directly
+// (ianncarvalho.github.io/#projects) and Back/Forward move between tabs.
+// English slugs are written; the Portuguese ones are accepted too.
+const TAB_SLUGS = ['resume', 'projects', 'contact'];
+const TAB_ALIASES = { curriculo: 0, 'currículo': 0, projetos: 1, contato: 2 };
+const tabFromHash = () => {
+    let slug = '';
+    try {
+        slug = decodeURIComponent(window.location.hash.slice(1)).toLowerCase();
+    } catch (e) {
+        // malformed hash — fall through to the first tab
+    }
+    if (TAB_SLUGS.includes(slug)) return TAB_SLUGS.indexOf(slug);
+    return TAB_ALIASES[slug] ?? 0;
+};
+
+// Tab <-> panel wiring for assistive tech (role="tab" / role="tabpanel").
+const tabProps = (i) => ({ id: `tab-${TAB_SLUGS[i]}`, 'aria-controls': `tabpanel-${TAB_SLUGS[i]}` });
+const panelProps = (i) => ({ id: `tabpanel-${TAB_SLUGS[i]}`, role: 'tabpanel', 'aria-labelledby': `tab-${TAB_SLUGS[i]}` });
+
 // The App
 export default function App({ data }) {
 
@@ -183,33 +203,31 @@ export default function App({ data }) {
         });
     };
 
-    // Tabs
-    const [activeTab, setActiveTab] = React.useState(0);
+    // Tabs (synced with the URL hash, see tabFromHash)
+    const [activeTab, setActiveTab] = React.useState(tabFromHash);
     const handleTabChange = (event, newValue) => {
         setActiveTab(newValue);
+        const hash = `#${TAB_SLUGS[newValue]}`;
+        if (window.location.hash !== hash) window.history.pushState(null, '', hash);
     };
-
-    // Build an "IB" monogram favicon as an inline SVG data-URI (crisp at 16px,
-    // on-brand, no image file). Sets the tab title to name + role.
-    const updateFavicon = () => {
-        const accent = '#58a6ff';
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">`
-            + `<rect width="64" height="64" rx="14" fill="#0d1117"/>`
-            + `<text x="50%" y="50%" dy="2" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="${accent}" text-anchor="middle" dominant-baseline="middle">IB</text>`
-            + `</svg>`;
-        const href = 'data:image/svg+xml,' + encodeURIComponent(svg);
-        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-        link.type = 'image/svg+xml';
-        link.rel = 'icon';
-        link.href = href;
-        document.getElementsByTagName('head')[0].appendChild(link);
-        document.title = `${localized.profile.name} — ${localized.profile.role || 'AI/ML Engineer'}`;
-    };
-
+    // Back/Forward and hand-edited hashes switch the tab too.
     React.useEffect(() => {
-        updateFavicon(); // Update favicon/title on load, tab change and language change
-        // eslint-disable-next-line
-    }, [activeTab, lang]);
+        const sync = () => setActiveTab(tabFromHash());
+        window.addEventListener('popstate', sync);
+        window.addEventListener('hashchange', sync);
+        return () => {
+            window.removeEventListener('popstate', sync);
+            window.removeEventListener('hashchange', sync);
+        };
+    }, []);
+
+    // Tab title (name + role) and <html lang> follow the language; the lang
+    // attribute tells screen readers which pronunciation to use. The favicon
+    // is static in public/index.html.
+    React.useEffect(() => {
+        document.title = `${localized.profile.name} — ${localized.profile.role || 'AI/ML Engineer'}`;
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    }, [lang, localized]);
 
 
     return (
@@ -261,9 +279,9 @@ export default function App({ data }) {
                                 '& .MuiTab-root:last-of-type': { mr: 'auto' },
                             }}
                         >
-                            <Tab label={t.tabResume} />
-                            <Tab label={t.tabProjects} />
-                            <Tab label={t.tabContact} />
+                            <Tab label={t.tabResume} {...tabProps(0)} />
+                            <Tab label={t.tabProjects} {...tabProps(1)} />
+                            <Tab label={t.tabContact} {...tabProps(2)} />
                         </Tabs>
                         <Box sx={{ display: 'flex', ml: 'auto' }}>
                             <Tooltip title={lang === 'en' ? 'Português' : 'English'}>
@@ -285,6 +303,7 @@ export default function App({ data }) {
                         {activeTab === 0 && (
                             <motion.div
                                 key="resume"
+                                {...panelProps(0)}
                                 initial="hidden"
                                 animate="visible"
                                 exit="hidden"
@@ -296,6 +315,7 @@ export default function App({ data }) {
                         {activeTab === 1 && (
                             <motion.div
                                 key="projects"
+                                {...panelProps(1)}
                                 initial="hidden"
                                 animate="visible"
                                 exit="hidden"
@@ -307,6 +327,7 @@ export default function App({ data }) {
                         {activeTab === 2 && (
                             <motion.div
                                 key="contact"
+                                {...panelProps(2)}
                                 initial="hidden"
                                 animate="visible"
                                 exit="hidden"
