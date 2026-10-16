@@ -80,8 +80,15 @@ function ProjectCard({ project, t }) {
                     ? project.repos
                     : (project.repo ? [{ label: t.code, href: project.repo }] : []);
                 if (repoLinks.length === 0 && !project.demo) return null;
+                // `disableSpacing` + gap only: CardActions' default spacing adds
+                // margin-left to every button but the first, so a wrapped row
+                // started indented. columnGap 1.5 (12px) keeps the old in-row
+                // spacing (8px margin + 4px gap); rowGap keeps the 4px.
                 return (
-                    <CardActions sx={{ px: 2, pb: 2, flexWrap: 'wrap', gap: 0.5 }}>
+                    <CardActions
+                        disableSpacing
+                        sx={{ px: 2, pb: 2, flexWrap: 'wrap', columnGap: 1.5, rowGap: 0.5 }}
+                    >
                         {repoLinks.map((r, i) => (
                             <Button
                                 key={i}
