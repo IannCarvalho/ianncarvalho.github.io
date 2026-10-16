@@ -178,7 +178,7 @@ export default function Contact({ profile, t }) {
                 <Grid container spacing={2} justifyContent="center" alignItems="flex-start">
                     <Grid item xs={12} md={8}>
                         <ResumeCard>
-                            <Typography variant="h5" component="div" sx={{ mb: 0.5 }}>
+                            <Typography variant="h5" component="h1" sx={{ mb: 0.5 }}>
                                 {t.contactTitle}
                             </Typography>
                             <Typography
@@ -193,7 +193,7 @@ export default function Contact({ profile, t }) {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <ResumeCard>
-                            <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                            <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
                                 {t.formOrEmail}
                             </Typography>
                             <ChannelList profile={profile} />
@@ -212,7 +212,7 @@ export default function Contact({ profile, t }) {
                     <ResumeCard>
                         {/* Heading */}
                         <Box sx={{ textAlign: 'center', mb: 2 }}>
-                            <Typography variant="h5" component="div">
+                            <Typography variant="h5" component="h1">
                                 {t.contactTitle}
                             </Typography>
                             <Typography

@@ -24,12 +24,12 @@ import PersonIcon from '@mui/icons-material/Person';
 // Local
 import ResumeCard from './ResumeCard';
 
-// Section heading with a leading icon, for consistent visual anchors.
+// Section heading (h2) with a leading icon, for consistent visual anchors.
 function SectionTitle({ icon: Icon, children }) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Icon fontSize="small" color="primary" />
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="h2">
                 {children}
             </Typography>
         </Box>
@@ -41,7 +41,7 @@ function ExperienceItem({ experience, divider }) {
     return (
         <>
             <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1">{experience.title}</Typography>
+                <Typography variant="subtitle1" component="h3">{experience.title}</Typography>
                 <Typography variant="body2" sx={{ mb: 0.5 }}>
                     {(() => {
                         const [period, ...rest] = experience.date.split(' · ');
@@ -110,7 +110,7 @@ export default function ResumePortfolio({ profile, t }) {
                                 src={profile.avatar}
                                 sx={{ width: 100, height: 100, border: '2px solid', borderColor: 'primary.main' }}
                             />
-                            <Typography variant="h5" component="div" sx={{ mt: 2 }}>
+                            <Typography variant="h5" component="h1" sx={{ mt: 2 }}>
                                 {profile.name}
                             </Typography>
                             <Typography color="text.secondary" sx={{ mt: 1, textAlign: 'center' }}>
@@ -139,7 +139,7 @@ export default function ResumePortfolio({ profile, t }) {
                                     {profile.education.map((education, index) => (
                                         <React.Fragment key={index}>
                                             <Box sx={{ mb: 2 }}>
-                                                <Typography variant="subtitle2">{education.degree}</Typography>
+                                                <Typography variant="subtitle2" component="h3">{education.degree}</Typography>
                                                 <Typography variant="caption" color="primary.main" sx={{ display: 'block' }}>
                                                     {education.date}
                                                 </Typography>
