@@ -6,6 +6,20 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 
+// Length of a role still in progress, counted like LinkedIn (start and
+// current month both included), so "Present" entries never go stale.
+// tenure(2024, 8, 'en') in Oct 2026 -> "2 yrs 3 mos".
+const tenure = (startYear, startMonth, lang) => {
+    const now = new Date();
+    const months = (now.getFullYear() - startYear) * 12 + (now.getMonth() + 1 - startMonth) + 1;
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    const parts = lang === 'pt'
+        ? [y > 0 && `${y} ${y === 1 ? 'ano' : 'anos'}`, m > 0 && `${m} ${m === 1 ? 'mês' : 'meses'}`]
+        : [y > 0 && `${y} ${y === 1 ? 'yr' : 'yrs'}`, m > 0 && `${m} ${m === 1 ? 'mo' : 'mos'}`];
+    return parts.filter(Boolean).join(' ');
+};
+
 // Data for both languages. The App picks `data[lang]` based on the language
 // toggle. Each language block has the same shape (profile + projects), so the
 // Resume/Projects components stay language-agnostic.
@@ -47,10 +61,6 @@ const data = {
                 { category: "Data & Infrastructure", skills: ["Pandas", "Kafka", "Power BI", "AWS Lambda", "Docker", "CI/CD", "Git"] },
                 { category: "Databases", skills: ["MongoDB", "PostgreSQL", "MySQL"] },
             ],
-            socialMedia: [
-                { icon: LinkedInIcon, label: "LinkedIn", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: GitHubIcon, label: "GitHub", href: "https://github.com/IannCarvalho" },
-            ],
             education: [
                 {
                     degree: "M.Sc. in Computer Science",
@@ -68,7 +78,7 @@ const data = {
             experience: [
                 {
                     title: "Tech Lead / Lee, Brock, Camargo Advogados",
-                    date: "Aug 2024 - Present (2 yrs 3 mos) · São Paulo, Brazil",
+                    date: `Aug 2024 - Present (${tenure(2024, 8, 'en')}) · São Paulo, Brazil`,
                     bullets: [
                         "Architected an in-house Large Language Model (LLM) document-processing engine that eliminated 3rd-party API dependencies, cutting operational costs by an estimated ~85% and reducing document turnaround from hours to minutes.",
                         "Shipped the engine to production, where it processes hundreds of legal documents per day and is used daily by the firm's attorneys.",
@@ -265,10 +275,6 @@ const data = {
                 { category: "Dados & Infraestrutura", skills: ["Pandas", "Kafka", "Power BI", "AWS Lambda", "Docker", "CI/CD", "Git"] },
                 { category: "Bancos de Dados", skills: ["MongoDB", "PostgreSQL", "MySQL"] },
             ],
-            socialMedia: [
-                { icon: LinkedInIcon, label: "LinkedIn", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: GitHubIcon, label: "GitHub", href: "https://github.com/IannCarvalho" },
-            ],
             education: [
                 {
                     degree: "Mestrado em Ciência da Computação",
@@ -286,7 +292,7 @@ const data = {
             experience: [
                 {
                     title: "Tech Lead / Lee, Brock, Camargo Advogados",
-                    date: "Ago 2024 - Atual (2 anos 3 meses) · São Paulo, Brasil",
+                    date: `Ago 2024 - Atual (${tenure(2024, 8, 'pt')}) · São Paulo, Brasil`,
                     bullets: [
                         "Arquitetei um motor interno de processamento de documentos com Large Language Models (LLMs) que eliminou dependências de APIs de terceiros, reduzindo custos operacionais em ~85% e o tempo de processamento de documentos de horas para minutos.",
                         "Coloquei o motor em produção, onde processa centenas de documentos jurídicos por dia e é usado diariamente pelos advogados da firma.",
@@ -377,7 +383,7 @@ const data = {
                 ],
                 tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
                 repos: [
-                    { label: "Architecture", href: "https://github.com/IannCarvalho/vetflow" },
+                    { label: "Arquitetura", href: "https://github.com/IannCarvalho/vetflow" },
                     { label: "Frontend", href: "https://github.com/IannCarvalho/vetflow-frontend" },
                     { label: "Backend", href: "https://github.com/IannCarvalho/vetflow-backend" },
                 ],
@@ -411,7 +417,7 @@ const data = {
                 ],
                 tech: ["Python", "FastAPI", "LiteLLM", "MCP", "Agentes LLM", "AWS Bedrock"],
                 repos: [
-                    { label: "Agent", href: "https://github.com/IannCarvalho/vetflow-agent" },
+                    { label: "Agente", href: "https://github.com/IannCarvalho/vetflow-agent" },
                     { label: "MCP", href: "https://github.com/IannCarvalho/vetflow-mcp" },
                 ],
                 demo: null,
