@@ -194,7 +194,23 @@ export default function App({ data }) {
                         justifyContent: 'space-between',
                         mb: 2,
                     }}>
-                        <Tabs value={activeTab} onChange={handleTabChange} sx={{ flexGrow: 1 }} centered>
+                        {/* Scrollable instead of `centered`: centered + the standard
+                            variant (scroller overflow-x: hidden, justify-content:
+                            center) clipped BOTH edges whenever the labels didn't fit
+                            beside the language/theme buttons (phones), with no way to
+                            scroll. The auto margins on the first/last tab keep the
+                            tabs centered when there is room and collapse to 0 when
+                            there isn't, so any overflow stays on the scrollable side. */}
+                        <Tabs
+                            value={activeTab}
+                            onChange={handleTabChange}
+                            variant="scrollable"
+                            sx={{
+                                flexGrow: 1,
+                                '& .MuiTab-root:first-of-type': { ml: 'auto' },
+                                '& .MuiTab-root:last-of-type': { mr: 'auto' },
+                            }}
+                        >
                             <Tab label={t.tabResume} />
                             <Tab label={t.tabProjects} />
                             <Tab label={t.tabContact} />
