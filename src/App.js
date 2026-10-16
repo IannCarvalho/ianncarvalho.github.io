@@ -188,10 +188,15 @@ export default function App({ data }) {
                 bgcolor: 'background.default',
             }}>
                 <Container component="main" maxWidth="lg">
+                    {/* On phones (xs) the language/theme buttons wrap to their own
+                        row, top right, so the tabs get the full width: beside the
+                        buttons only ~225px were left and "Contato" started fully
+                        off-screen at 360px. From sm up it stays one row. */}
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
+                        flexWrap: { xs: 'wrap', sm: 'nowrap' },
                         mb: 2,
                     }}>
                         {/* Scrollable instead of `centered`: centered + the standard
@@ -207,6 +212,11 @@ export default function App({ data }) {
                             variant="scrollable"
                             sx={{
                                 flexGrow: 1,
+                                order: { xs: 1, sm: 0 },
+                                width: { xs: '100%', sm: 'auto' },
+                                // 12px side padding on phones (16px default) so the
+                                // three PT labels fit in 328px with room to spare.
+                                '& .MuiTab-root': { px: { xs: 1.5, sm: 2 } },
                                 '& .MuiTab-root:first-of-type': { ml: 'auto' },
                                 '& .MuiTab-root:last-of-type': { mr: 'auto' },
                             }}
@@ -215,19 +225,21 @@ export default function App({ data }) {
                             <Tab label={t.tabProjects} />
                             <Tab label={t.tabContact} />
                         </Tabs>
-                        <Tooltip title={lang === 'en' ? 'Português' : 'English'}>
-                            <IconButton onClick={toggleLang} color="inherit" aria-label={t.toggleLanguage}>
-                                <TranslateIcon />
-                                <Box component="span" sx={{ ml: 0.5, fontSize: 14, fontWeight: 600 }}>
-                                    {lang === 'en' ? 'PT' : 'EN'}
-                                </Box>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={mode === 'dark' ? t.themeToLight : t.themeToDark}>
-                            <IconButton onClick={toggleMode} color="inherit" aria-label={t.toggleTheme}>
-                                {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-                            </IconButton>
-                        </Tooltip>
+                        <Box sx={{ display: 'flex', ml: 'auto' }}>
+                            <Tooltip title={lang === 'en' ? 'Português' : 'English'}>
+                                <IconButton onClick={toggleLang} color="inherit" aria-label={t.toggleLanguage}>
+                                    <TranslateIcon />
+                                    <Box component="span" sx={{ ml: 0.5, fontSize: 14, fontWeight: 600 }}>
+                                        {lang === 'en' ? 'PT' : 'EN'}
+                                    </Box>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={mode === 'dark' ? t.themeToLight : t.themeToDark}>
+                                <IconButton onClick={toggleMode} color="inherit" aria-label={t.toggleTheme}>
+                                    {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
                     </Box>
                     <AnimatePresence mode='wait'>
                         {activeTab === 0 && (
