@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // MUI 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -20,6 +21,20 @@ import Portfolio from './components/Resume';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import ui from './i18n';
+import { flushSync } from 'react-dom';
+
+// Print / "Save as PDF": drop the on-screen controls, print every job
+// (including the collapsed "Earlier experience") and skip card shadows.
+// The light palette for paper is switched on in App via `beforeprint`.
+const printStyles = {
+    '@media print': {
+        '.MuiTabs-root, .MuiIconButton-root, .MuiAccordionSummary-expandIconWrapper': {
+            display: 'none !important',
+        },
+        '.MuiCollapse-root': { height: 'auto !important', visibility: 'visible !important' },
+        '.MuiCard-root': { boxShadow: 'none !important' },
+    },
+};
 
 
 // Fade In/Out Variants
@@ -116,7 +131,28 @@ export default function App({ data }) {
 
     // Theme mode (dark/light), persisted to localStorage
     const [mode, setMode] = React.useState(getInitialMode);
-    const theme = React.useMemo(() => getTheme(mode), [mode]);
+
+    // Paper is white: print with the light palette whatever the screen theme.
+    // flushSync because the print layout is taken right after `beforeprint`,
+    // so the light theme has to be committed before the handler returns.
+    const [printing, setPrinting] = React.useState(false);
+    React.useEffect(() => {
+        const before = () => flushSync(() => setPrinting(true));
+        const after = () => setPrinting(false);
+        window.addEventListener('beforeprint', before);
+        window.addEventListener('afterprint', after);
+        return () => {
+            window.removeEventListener('beforeprint', before);
+            window.removeEventListener('afterprint', after);
+        };
+    }, []);
+    const theme = React.useMemo(() => getTheme(printing ? 'light' : mode), [mode, printing]);
+
+    // Keep the mobile browser toolbar (meta theme-color) in step with the theme.
+    React.useEffect(() => {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme.palette.background.default);
+    }, [theme]);
 
     const toggleMode = () => {
         setMode((prev) => {
@@ -179,12 +215,16 @@ export default function App({ data }) {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
+            <GlobalStyles styles={printStyles} />
+            {/* The page scrolls as a normal document. This box used to be
+                position: fixed + overflow: auto, so the app scrolled inside
+                it: printing / "Save as PDF" stopped after one page, PageDown
+                and Space did nothing until a click, and mobile browsers could
+                not collapse their toolbar or scroll to the top on tap.
+                CssBaseline already paints the body with the theme background. */}
             <Box sx={{
                 display: 'flex',
-                position: "fixed",
-                overflow: 'auto',
                 width: '100%',
-                height: "100%",
                 bgcolor: 'background.default',
             }}>
                 <Container component="main" maxWidth="lg">
