@@ -58,7 +58,10 @@ function ProjectCard({ project, t }) {
                         {project.description}
                     </Typography>
                 )}
-                <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap', gap: 0.75 }}>
+                {/* Spacing via `gap` only (same as the Resume chips). Stack's
+                    `spacing` prop adds margin-left to every chip but the first,
+                    so a wrapped row started indented and gaps doubled. */}
+                <Stack direction="row" sx={{ mt: 2, flexWrap: 'wrap', gap: 0.75 }}>
                     {project.tech.map((techLabel, i) => (
                         <Chip
                             key={i}
