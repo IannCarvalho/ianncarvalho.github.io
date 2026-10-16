@@ -4,12 +4,32 @@
     <meta charset="utf-8" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1117'/%3E%3Ctext x='50%25' y='50%25' dy='2' font-family='Segoe UI, Helvetica, Arial, sans-serif' font-size='30' font-weight='700' fill='%2358a6ff' text-anchor='middle' dominant-baseline='middle'%3EIB%3C/text%3E%3C/svg%3E" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0d1117" />
     <meta
       name="description"
       content="Iann Barbosa — AI/ML Engineer & LLM Specialist. Portfolio, experience and projects."
     />
     <title>Iann Barbosa — AI/ML Engineer</title>
+    <script>
+      // Paint the saved theme before the JS bundle arrives: without this a
+      // first visit stays white for the seconds it takes React to mount.
+      (function () {
+        var mode = 'dark';
+        try {
+          var saved = localStorage.getItem('themeMode');
+          if (saved === 'light' || saved === 'dark') mode = saved;
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', mode);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', mode === 'light' ? '#f6f8fa' : '#0d1117');
+      })();
+    </script>
+    <style>
+      /* Only while #root is empty (before React mounts, or with JS off);
+         after that CssBaseline paints the body with the theme. */
+      html:has(#root:empty) { background: #0d1117; color: #e6edf3; }
+      html[data-theme='light']:has(#root:empty) { background: #f6f8fa; color: #1f2328; }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
