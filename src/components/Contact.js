@@ -40,10 +40,42 @@ const formEnabled = Boolean(
 function ContactForm({ t, emailFallbackHref }) {
     const formRef = React.useRef(null);
     const [status, setStatus] = React.useState('idle'); // idle | sending | success | error
+    // Per-field error, stored as an i18n key so it follows a language switch.
+    // The form keeps `noValidate` so the errors show as MUI field states in
+    // the site's language (not the browser's native bubbles), which means the
+    // checks have to run here before sending.
+    const [errors, setErrors] = React.useState({});
+
+    const validate = (form) => {
+        const field = (name) => form.elements.namedItem(name);
+        const found = {};
+        if (!field('from_name').value.trim()) found.from_name = 'formRequired';
+        const email = field('reply_to');
+        if (!email.value.trim()) found.reply_to = 'formRequired';
+        else if (!email.checkValidity()) found.reply_to = 'formInvalidEmail';
+        if (!field('message').value.trim()) found.message = 'formRequired';
+        return found;
+    };
+
+    // Typing in a field clears its error.
+    const clearError = (e) => {
+        const { name } = e.target;
+        if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (status === 'sending') return;
+        const form = formRef.current;
+        const found = validate(form);
+        const invalid = Object.keys(found);
+        if (invalid.length > 0) {
+            setErrors(found);
+            setStatus('idle');
+            form.elements.namedItem(invalid[0]).focus();
+            return;
+        }
+        setErrors({});
         setStatus('sending');
 
         emailjs
@@ -71,6 +103,9 @@ function ContactForm({ t, emailFallbackHref }) {
                 required
                 margin="normal"
                 autoComplete="name"
+                error={Boolean(errors.from_name)}
+                helperText={errors.from_name && t[errors.from_name]}
+                onChange={clearError}
             />
             <TextField
                 name="reply_to"
@@ -80,6 +115,9 @@ function ContactForm({ t, emailFallbackHref }) {
                 required
                 margin="normal"
                 autoComplete="email"
+                error={Boolean(errors.reply_to)}
+                helperText={errors.reply_to && t[errors.reply_to]}
+                onChange={clearError}
             />
             <TextField
                 name="message"
@@ -89,6 +127,9 @@ function ContactForm({ t, emailFallbackHref }) {
                 multiline
                 minRows={4}
                 margin="normal"
+                error={Boolean(errors.message)}
+                helperText={errors.message && t[errors.message]}
+                onChange={clearError}
             />
 
             {status === 'success' && (
