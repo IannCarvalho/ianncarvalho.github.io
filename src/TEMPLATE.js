@@ -1,4 +1,3 @@
-
 // MUI: Icons
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
@@ -20,10 +19,118 @@ const tenure = (startYear, startMonth, lang) => {
     return parts.filter(Boolean).join(' ');
 };
 
-// Data for both languages. The App picks `data[lang]` based on the language
-// toggle. Each language block has the same shape (profile + projects), so the
-// Resume/Projects components stay language-agnostic.
-const data = {
+// ─────────────────────────── LANGUAGE-INDEPENDENT ──────────────────────────
+// Fields that never change between EN/PT (URLs, tech stacks, repo hrefs, demo
+// links, periods, the avatar and publication hrefs) are defined ONCE here. Each
+// language block below contributes only the translatable strings, merged into
+// the shape the components consume (profile + projects, same as before).
+
+// Shared contact targets — only the visible label/value text is translated.
+const contactLinks = {
+    email: { icon: EmailIcon, href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
+    linkedin: { icon: LinkedInIcon, href: "https://www.linkedin.com/in/iann-carvalho" },
+    github: { icon: GitHubIcon, href: "https://github.com/IannCarvalho" },
+    location: { icon: HomeIcon, href: "https://www.google.com/maps/place/Campina+Grande,+PB" },
+};
+
+// Shared publication href — title/venue stay per-language (identical today, but
+// free to diverge). Index-aligned with each language's `publications`.
+const publicationLinks = [
+    { href: "https://link.springer.com/article/10.1007/s11219-026-09768-1" },
+];
+
+// Shared avatar path.
+const avatar = "/avatar.jpg";
+
+// Shared, language-independent project fields, index-aligned with each
+// language's `projectsText` below. `repos[].label` is translatable, so repos
+// here carry only hrefs and are zipped with the labels per language.
+const projectsBase = [
+    {
+        period: "2025",
+        tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
+        repos: [
+            { href: "https://github.com/IannCarvalho/vetflow" },
+            { href: "https://github.com/IannCarvalho/vetflow-frontend" },
+            { href: "https://github.com/IannCarvalho/vetflow-backend" },
+        ],
+        demo: "https://vetflow-frontend-eight.vercel.app/",
+    },
+    {
+        period: "2025",
+        tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
+        repos: [
+            { href: "https://github.com/IannCarvalho/lol_front" },
+            { href: "https://github.com/IannCarvalho/lol_back" },
+        ],
+        demo: "https://lolfront.vercel.app",
+    },
+    {
+        period: "2025",
+        tech: ["Python", "FastAPI", "LiteLLM", "MCP", "LLM Agents", "AWS Bedrock"],
+        repos: [
+            { href: "https://github.com/IannCarvalho/vetflow-agent" },
+            { href: "https://github.com/IannCarvalho/vetflow-mcp" },
+        ],
+        demo: null,
+    },
+    {
+        period: "2026",
+        tech: ["Python", "LangGraph", "RAG", "Guardrails", "Chroma", "Pinecone", "Ollama"],
+        repos: [
+            { href: "https://github.com/IannCarvalho/llm-study" },
+        ],
+        demo: null,
+    },
+    {
+        period: "2025",
+        tech: ["Python", "Flask", "Vue 3", "Angular", "TypeScript", "LiteLLM", "Docker", "Render", "Vercel"],
+        repos: [
+            { href: "https://github.com/IannCarvalho/feedlens" },
+            { href: "https://github.com/IannCarvalho/feedlens-panel" },
+            { href: "https://github.com/IannCarvalho/feedlens-form" },
+        ],
+        demo: null,
+    },
+];
+
+// Merge a language's translatable project text with the shared base above.
+// `repos` zips each base href with the language's repo label (index-aligned).
+const buildProjects = (projectsText) => projectsText.map((text, i) => {
+    const base = projectsBase[i];
+    return {
+        title: text.title,
+        category: text.category,
+        period: base.period,
+        highlights: text.highlights,
+        // `tech` is shared by default; a language may override it for a term
+        // that is actually localized (PT translates "LLM Agents" ->
+        // "Agentes LLM" on the VetFlow MCP card).
+        tech: text.tech || base.tech,
+        repos: base.repos.map((r, j) => ({ label: text.repoLabels[j], href: r.href })),
+        demo: base.demo,
+    };
+});
+
+// Merge a language's translatable contact text with the shared targets above.
+const buildContacts = (c) => [
+    { icon: contactLinks.email.icon, label: c.email.label, value: c.email.value, href: contactLinks.email.href },
+    { icon: contactLinks.linkedin.icon, label: c.linkedin.label, value: c.linkedin.value, href: contactLinks.linkedin.href },
+    { icon: contactLinks.github.icon, label: c.github.label, value: c.github.value, href: contactLinks.github.href },
+    { icon: contactLinks.location.icon, label: c.location.label, value: c.location.value, href: contactLinks.location.href },
+];
+
+// Merge a language's translatable publication text with the shared hrefs.
+const buildPublications = (pubs) => pubs.map((p, i) => ({
+    title: p.title,
+    venue: p.venue,
+    href: publicationLinks[i].href,
+}));
+
+// ───────────────────── TRANSLATABLE STRINGS, PER LANGUAGE ───────────────────
+// Only strings that actually change between EN/PT. The shape the components
+// consume is assembled from these + the shared blocks above in `data`.
+const content = {
     // ─────────────────────────────── ENGLISH ───────────────────────────────
     en: {
         profile: {
@@ -32,7 +139,6 @@ const data = {
             role: "AI/ML Engineer",
             summary: "Senior AI Engineer with a Master's in Computer Science (UFCG) and 5+ years of experience bridging Data Science and Software Engineering. Expert in building scalable AI-driven products — from architecting LLM pipelines, RAG systems, and autonomous agents to deploying production-ready full-stack applications. Proven track record of reducing operational costs by 85% through in-house LLM ecosystems that eliminated 3rd-party API dependencies, cutting processing turnaround time from hours to minutes. Deep expertise in LLMOps, model quantization, and cloud-native AI infrastructure (AWS).",
             summaryShort: "AI Engineer bridging Data Science and Software Engineering — LLM pipelines, RAG and autonomous agents, shipped to production.",
-            avatar: "/avatar.jpg",
             languages: [
                 { label: "Portuguese", level: "Native" },
                 { label: "English", level: "Intermediate / Advanced" },
@@ -42,15 +148,14 @@ const data = {
                 {
                     title: "Lexical and semantic representations for similar bug report detection: A TF-IDF and frozen T5 comparative study",
                     venue: "Software Quality Journal · Springer, 2026",
-                    href: "https://link.springer.com/article/10.1007/s11219-026-09768-1",
                 },
             ],
-            contacts: [
-                { icon: EmailIcon, label: "Email", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
-                { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: GitHubIcon, label: "GitHub", value: "github.com/IannCarvalho", href: "https://github.com/IannCarvalho" },
-                { icon: HomeIcon, label: "Location", value: "Campina Grande, Paraíba, Brazil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
-            ],
+            contacts: {
+                email: { label: "Email", value: "iann.barbosa@copin.ufcg.edu.br" },
+                linkedin: { label: "LinkedIn", value: "linkedin.com/in/iann-carvalho" },
+                github: { label: "GitHub", value: "github.com/IannCarvalho" },
+                location: { label: "Location", value: "Campina Grande, Paraíba, Brazil" },
+            },
             skills: [
                 { category: "LLM & GenAI", skills: ["LLMs", "RAG", "Prompt Engineering", "Autonomous Agents", "LangChain", "LangGraph", "LlamaIndex", "Model Context Protocol (MCP)", "Jailbreak Defense"] },
                 { category: "NLP & ML", skills: ["Transformers", "NER & Relationship Extraction", "Text Classification", "Fine-tuning", "Recommendation Systems", "PyTorch", "TensorFlow", "scikit-learn", "spaCy", "NLTK"] },
@@ -66,13 +171,11 @@ const data = {
                     degree: "M.Sc. in Computer Science",
                     date: "August 2021 - November 2024",
                     school: "UFCG — Campina Grande, PB",
-                    gpa: "",
                 },
                 {
                     degree: "B.Sc. in Computer Science",
                     date: "June 2016 - December 2021",
                     school: "UFCG — Campina Grande, PB",
-                    gpa: "",
                 },
             ],
             experience: [
@@ -156,91 +259,62 @@ const data = {
             ],
         },
 
-        // Personal projects, grouped by category.
-        projects: [
+        // Translatable project text, index-aligned with `projectsBase`.
+        projectsText: [
             {
                 title: "VetFlow — Multi-Service Veterinary Platform",
                 category: "Products & Systems",
-                period: "2025",
                 highlights: [
                     "Architected a four-service system — React 19 SPA, Go (chi) REST backend, a Python MCP server and a Python agent — as independently deployable repositories, each with its own CI and tests.",
                     "Designed the backend as the single source of truth: it owns MongoDB and enforces JWT auth with per-tenant data scoping, so every other service reaches data only through its authenticated HTTP API.",
                     "Defined explicit boundaries and contracts between the frontend, backend and AI layer, keeping each component buildable, reviewable and shippable in isolation (Vercel for the SPA, Render for the Go and Python services).",
                 ],
-                tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
-                repos: [
-                    { label: "Architecture", href: "https://github.com/IannCarvalho/vetflow" },
-                    { label: "Frontend", href: "https://github.com/IannCarvalho/vetflow-frontend" },
-                    { label: "Backend", href: "https://github.com/IannCarvalho/vetflow-backend" },
-                ],
-                demo: "https://vetflow-frontend-eight.vercel.app/",
+                repoLabels: ["Architecture", "Frontend", "Backend"],
             },
             {
                 title: "League of Legends Explorer — Full-Stack App",
                 category: "Products & Systems",
-                period: "2025",
                 highlights: [
                     "Built a full-stack app to browse League of Legends champions and regions: a vanilla HTML/CSS/JS frontend (native ES Modules, no framework) and a Node.js/Express REST API.",
                     "Engineered the frontend as a hand-rolled single-page app with History-API routing, a cached data layer and keyboard navigation — no bundler.",
                     "Deployed the frontend to Vercel (continuous deploy on push) and the Express + Mongoose API to Render, backed by MongoDB Atlas.",
                 ],
-                tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
-                repos: [
-                    { label: "Frontend", href: "https://github.com/IannCarvalho/lol_front" },
-                    { label: "Backend", href: "https://github.com/IannCarvalho/lol_back" },
-                ],
-                demo: "https://lolfront.vercel.app",
+                repoLabels: ["Frontend", "Backend"],
             },
             {
                 title: "VetFlow — Conversational AI Agent & MCP Server",
                 category: "Applied AI/ML",
-                period: "2025",
                 highlights: [
                     "Built a multi-provider LLM agent (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) that answers natural-language questions over a vet clinic's real data by running a tool-use loop — grounded in the system, never hallucinated.",
                     "Engineered a standalone Model Context Protocol (MCP) server that exposes the Go backend as reusable tools, so any MCP client (including Claude Desktop) drives the product through its authenticated HTTP API — never the database directly.",
                     "Designed BYOK (bring-your-own-key): the user's LLM key lives only in the browser and is used per request, so the deployed service holds no third-party credentials and carries no LLM cost.",
                     "Implemented JWT pass-through so the assistant acts strictly as the logged-in user, and solved a 512MB free-tier OOM by running the MCP in-process with per-request isolation via contextvars.",
                 ],
-                tech: ["Python", "FastAPI", "LiteLLM", "MCP", "LLM Agents", "AWS Bedrock"],
-                repos: [
-                    { label: "Agent", href: "https://github.com/IannCarvalho/vetflow-agent" },
-                    { label: "MCP", href: "https://github.com/IannCarvalho/vetflow-mcp" },
-                ],
-                demo: null,
+                repoLabels: ["Agent", "MCP"],
             },
             {
                 title: "AI Engineering Study — LangGraph, Vector DBs & Observability",
                 category: "Study Material",
-                period: "2026",
                 highlights: [
                     "Built a hands-on reference for modern LLM engineering spanning 12 modules — from embeddings, chunking and hybrid search to agentic patterns, guardrails, structured output and agentic RAG — all grounded in one unified CVE dataset.",
                     "Implemented RAG pipelines with hybrid keyword + semantic search (Reciprocal Rank Fusion) and cross-encoder reranking, plus ReAct/tool-use agents and conditional workflows on LangGraph.",
                     "Covered production-grade concerns: OWASP-LLM guardrails (prompt injection, PII, jailbreak), Pydantic structured output, short- and long-term memory, LLM-as-Judge evals, and LangSmith / LangFuse tracing.",
                     "Ran everything locally and key-free with Ollama + Mistral, across Chroma (local) and Pinecone (cloud), with CI (ruff + tests) on every module.",
                 ],
-                tech: ["Python", "LangGraph", "RAG", "Guardrails", "Chroma", "Pinecone", "Ollama"],
-                repo: "https://github.com/IannCarvalho/llm-study",
-                demo: null,
+                repoLabels: ["Code"],
             },
             {
                 title: "FeedLens — AI Feedback Analysis Platform",
                 category: "Products & Systems",
-                period: "2025",
                 highlights: [
                     "Built a feedback-analysis platform across three independently deployable repositories — a Flask/Python backend, a Vue 3 + Vite + TypeScript operator panel, and a static Angular public form — each buildable, testable and shippable in isolation.",
                     "Engineered multi-provider BYOK analysis (OpenAI, Anthropic, Gemini, Groq, OpenRouter via LiteLLM): the operator's key is encrypted at rest with Fernet and used per request, so the deployed service embeds no third-party credentials.",
                     "Classifies feedback by sentiment, flags spam and extracts the most-requested product features, with an AI-powered dashboard and scheduled weekly email summaries.",
                     "Embedded the versioned, checksum-verified Vue panel into the backend image, served same-origin for session + CSRF without CORS (backend on Render, public form on Vercel).",
                 ],
-                tech: ["Python", "Flask", "Vue 3", "Angular", "TypeScript", "LiteLLM", "Docker", "Render", "Vercel"],
-                repos: [
-                    { label: "Backend", href: "https://github.com/IannCarvalho/feedlens" },
-                    { label: "Panel", href: "https://github.com/IannCarvalho/feedlens-panel" },
-                    { label: "Form", href: "https://github.com/IannCarvalho/feedlens-form" },
-                ],
-                demo: null,
+                repoLabels: ["Backend", "Panel", "Form"],
             },
-        ]
+        ],
     },
 
     // ─────────────────────────────── PORTUGUÊS ──────────────────────────────
@@ -251,7 +325,6 @@ const data = {
             role: "Engenheiro de IA/ML",
             summary: "Engenheiro de IA Sênior, Mestre em Ciência da Computação (UFCG) e com 5+ anos de experiência unindo Ciência de Dados e Engenharia de Software. Especialista em construir produtos de IA escaláveis — da arquitetura de pipelines de LLM, sistemas RAG e agentes autônomos até a implantação de aplicações full-stack prontas para produção. Histórico comprovado de redução de 85% nos custos operacionais por meio de ecossistemas de LLM internos que eliminaram dependências de APIs de terceiros, reduzindo o tempo de processamento de horas para minutos. Profundo domínio de LLMOps, quantização de modelos e infraestrutura de IA cloud-native (AWS).",
             summaryShort: "Engenheiro de IA unindo Ciência de Dados e Engenharia de Software — pipelines de LLM, RAG e agentes autônomos, levados à produção.",
-            avatar: "/avatar.jpg",
             languages: [
                 { label: "Português", level: "Nativo" },
                 { label: "Inglês", level: "Intermediário / Avançado" },
@@ -261,15 +334,14 @@ const data = {
                 {
                     title: "Lexical and semantic representations for similar bug report detection: A TF-IDF and frozen T5 comparative study",
                     venue: "Software Quality Journal · Springer, 2026",
-                    href: "https://link.springer.com/article/10.1007/s11219-026-09768-1",
                 },
             ],
-            contacts: [
-                { icon: EmailIcon, label: "E-mail", value: "iann.barbosa@copin.ufcg.edu.br", href: "mailto:iann.barbosa@copin.ufcg.edu.br" },
-                { icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/iann-carvalho", href: "https://www.linkedin.com/in/iann-carvalho" },
-                { icon: GitHubIcon, label: "GitHub", value: "github.com/IannCarvalho", href: "https://github.com/IannCarvalho" },
-                { icon: HomeIcon, label: "Localização", value: "Campina Grande, Paraíba, Brasil", href: "https://www.google.com/maps/place/Campina+Grande,+PB" }
-            ],
+            contacts: {
+                email: { label: "E-mail", value: "iann.barbosa@copin.ufcg.edu.br" },
+                linkedin: { label: "LinkedIn", value: "linkedin.com/in/iann-carvalho" },
+                github: { label: "GitHub", value: "github.com/IannCarvalho" },
+                location: { label: "Localização", value: "Campina Grande, Paraíba, Brasil" },
+            },
             skills: [
                 { category: "LLM & GenAI", skills: ["LLMs", "RAG", "Engenharia de Prompt", "Agentes Autônomos", "LangChain", "LangGraph", "LlamaIndex", "Model Context Protocol (MCP)", "Defesa contra Jailbreak"] },
                 { category: "PLN & ML", skills: ["Transformers", "Extração de Entidades e Relações (NER)", "Classificação de Texto", "Fine-tuning", "Sistemas de Recomendação", "PyTorch", "TensorFlow", "scikit-learn", "spaCy", "NLTK"] },
@@ -285,13 +357,11 @@ const data = {
                     degree: "Mestrado em Ciência da Computação",
                     date: "Agosto 2021 - Novembro 2024",
                     school: "UFCG — Campina Grande, PB",
-                    gpa: "",
                 },
                 {
                     degree: "Bacharelado em Ciência da Computação",
                     date: "Junho 2016 - Dezembro 2021",
                     school: "UFCG — Campina Grande, PB",
-                    gpa: "",
                 },
             ],
             experience: [
@@ -375,45 +445,31 @@ const data = {
             ],
         },
 
-        // Projetos pessoais, agrupados por categoria.
-        projects: [
+        // Texto de projeto traduzível, alinhado por índice com `projectsBase`.
+        projectsText: [
             {
                 title: "VetFlow — Plataforma Veterinária Multi-Serviço",
                 category: "Produtos & Sistemas",
-                period: "2025",
                 highlights: [
                     "Arquitetei um sistema de quatro serviços — SPA React 19, backend REST em Go (chi), um servidor MCP em Python e um agente em Python — como repositórios implantáveis de forma independente, cada um com CI e testes próprios.",
                     "Projetei o backend como a única fonte de verdade: ele é dono do MongoDB e aplica autenticação JWT com escopo de dados por tenant, de modo que todo serviço acessa os dados apenas pela API HTTP autenticada.",
                     "Defini fronteiras e contratos explícitos entre frontend, backend e camada de IA, mantendo cada componente construível, revisável e implantável isoladamente (Vercel para a SPA, Render para os serviços Go e Python).",
                 ],
-                tech: ["React 19", "Go", "chi", "MongoDB", "JWT", "Vercel", "Render"],
-                repos: [
-                    { label: "Arquitetura", href: "https://github.com/IannCarvalho/vetflow" },
-                    { label: "Frontend", href: "https://github.com/IannCarvalho/vetflow-frontend" },
-                    { label: "Backend", href: "https://github.com/IannCarvalho/vetflow-backend" },
-                ],
-                demo: "https://vetflow-frontend-eight.vercel.app/",
+                repoLabels: ["Arquitetura", "Frontend", "Backend"],
             },
             {
                 title: "League of Legends Explorer — Aplicação Full-Stack",
                 category: "Produtos & Sistemas",
-                period: "2025",
                 highlights: [
                     "Construí uma aplicação full-stack para explorar campeões e regiões de League of Legends: um frontend em HTML/CSS/JS puro (ES Modules nativos, sem framework) e uma API REST Node.js/Express.",
                     "Desenvolvi o frontend como uma single-page app feita à mão, com roteamento via History API, camada de dados em cache e navegação por teclado — sem bundler.",
                     "Implantei o frontend na Vercel (deploy contínuo a cada push) e a API Express + Mongoose no Render, com MongoDB Atlas.",
                 ],
-                tech: ["JavaScript", "Node.js", "Express", "MongoDB", "Vercel", "Render"],
-                repos: [
-                    { label: "Frontend", href: "https://github.com/IannCarvalho/lol_front" },
-                    { label: "Backend", href: "https://github.com/IannCarvalho/lol_back" },
-                ],
-                demo: "https://lolfront.vercel.app",
+                repoLabels: ["Frontend", "Backend"],
             },
             {
                 title: "VetFlow — Agente de IA Conversacional & Servidor MCP",
                 category: "IA/ML Aplicada",
-                period: "2025",
                 highlights: [
                     "Construí um agente LLM multi-provedor (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) que responde perguntas em linguagem natural sobre os dados reais de uma clínica veterinária executando um loop de uso de ferramentas — ancorado no sistema, nunca alucinado.",
                     "Projetei um servidor Model Context Protocol (MCP) autônomo que expõe o backend Go como ferramentas reutilizáveis, de modo que qualquer cliente MCP (inclusive o Claude Desktop) opere o produto pela API HTTP autenticada — nunca pelo banco direto.",
@@ -421,46 +477,58 @@ const data = {
                     "Implementei pass-through de JWT para o assistente agir estritamente como o usuário logado, e resolvi um OOM no free tier de 512MB rodando o MCP in-process com isolamento por requisição via contextvars.",
                 ],
                 tech: ["Python", "FastAPI", "LiteLLM", "MCP", "Agentes LLM", "AWS Bedrock"],
-                repos: [
-                    { label: "Agente", href: "https://github.com/IannCarvalho/vetflow-agent" },
-                    { label: "MCP", href: "https://github.com/IannCarvalho/vetflow-mcp" },
-                ],
-                demo: null,
+                repoLabels: ["Agente", "MCP"],
             },
             {
                 title: "AI Engineering Study — LangGraph, Bancos Vetoriais & Observabilidade",
                 category: "Material de Estudo",
-                period: "2026",
                 highlights: [
                     "Construí uma referência prática de engenharia de LLMs moderna com 12 módulos — de embeddings, chunking e busca híbrida a padrões agênticos, guardrails, structured output e agentic RAG — tudo ancorado em um único dataset unificado de CVEs.",
                     "Implementei pipelines RAG com busca híbrida (palavra-chave + semântica) via Reciprocal Rank Fusion e reranking com cross-encoder, além de agentes ReAct/uso de ferramentas e fluxos condicionais no LangGraph.",
                     "Cobri temas de nível de produção: guardrails OWASP-LLM (prompt injection, PII, jailbreak), structured output com Pydantic, memória de curto e longo prazo, evals com LLM-as-Judge e tracing LangSmith / LangFuse.",
                     "Rodei tudo localmente e sem chaves com Ollama + Mistral, entre Chroma (local) e Pinecone (nuvem), com CI (ruff + testes) em cada módulo.",
                 ],
-                tech: ["Python", "LangGraph", "RAG", "Guardrails", "Chroma", "Pinecone", "Ollama"],
-                repo: "https://github.com/IannCarvalho/llm-study",
-                demo: null,
+                repoLabels: ["Código"],
             },
             {
                 title: "FeedLens — Plataforma de Análise de Feedback com IA",
                 category: "Produtos & Sistemas",
-                period: "2025",
                 highlights: [
                     "Construí uma plataforma de análise de feedback em três repositórios implantáveis de forma independente — um backend Flask/Python, um painel de operador em Vue 3 + Vite + TypeScript e um formulário público estático em Angular — cada um construível, testável e implantável isoladamente.",
                     "Projetei a análise multi-provedor BYOK (OpenAI, Anthropic, Gemini, Groq, OpenRouter via LiteLLM): a chave do operador é cifrada em repouso com Fernet e usada por requisição, de modo que o serviço implantado não embute credenciais de terceiros.",
                     "Classifica o feedback por sentimento, sinaliza spam e extrai as funcionalidades de produto mais pedidas, com um dashboard apoiado em IA e resumos semanais por e-mail agendados.",
                     "Embuti o painel Vue versionado e verificado por checksum na imagem do backend, servido na mesma origem para sessão + CSRF sem CORS (backend no Render, formulário público no Vercel).",
                 ],
-                tech: ["Python", "Flask", "Vue 3", "Angular", "TypeScript", "LiteLLM", "Docker", "Render", "Vercel"],
-                repos: [
-                    { label: "Backend", href: "https://github.com/IannCarvalho/feedlens" },
-                    { label: "Painel", href: "https://github.com/IannCarvalho/feedlens-panel" },
-                    { label: "Formulário", href: "https://github.com/IannCarvalho/feedlens-form" },
-                ],
-                demo: null,
+                repoLabels: ["Backend", "Painel", "Formulário"],
             },
-        ]
+        ],
     },
+};
+
+// Assemble the shape the components consume: per-language strings merged with
+// the language-independent blocks (avatar, contact/publication hrefs, project
+// tech/period/demo/repo hrefs). App.js still picks data[lang].profile / .projects.
+const buildLang = (c) => ({
+    profile: {
+        name: c.profile.name,
+        address: c.profile.address,
+        role: c.profile.role,
+        summary: c.profile.summary,
+        summaryShort: c.profile.summaryShort,
+        avatar,
+        languages: c.profile.languages,
+        publications: buildPublications(c.profile.publications),
+        contacts: buildContacts(c.profile.contacts),
+        skills: c.profile.skills,
+        education: c.profile.education,
+        experience: c.profile.experience,
+    },
+    projects: buildProjects(c.projectsText),
+});
+
+const data = {
+    en: buildLang(content.en),
+    pt: buildLang(content.pt),
 };
 
 // Exporting the bilingual data object so that App.js can pick data[lang].

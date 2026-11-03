@@ -16,14 +16,14 @@ Single-page application com seções de resumo, experiência, skills, idiomas e 
 ```
 src/
 ├── index.js         # entrypoint — importa os dados de TEMPLATE.js
-├── App.js           # layout raiz e troca de idioma
+├── App.js           # layout raiz, tema (claro/escuro), idioma e abas
 ├── i18n.js          # strings e labels traduzíveis (EN/PT)
 ├── TEMPLATE.js      # TODO o conteúdo do portfólio (dados por idioma)
 └── components/
-    ├── Resume.js        # cabeçalho / resumo
-    ├── ResumeCard.js    # cartão de experiência
-    ├── Projects.js      # grade de cards de projeto (botões Code/Demo)
-    └── SocialFeed.js    # links sociais
+    ├── Resume.js        # aba Currículo (perfil, formação, skills, experiência)
+    ├── ResumeCard.js    # cartão base reutilizado pelas seções do currículo
+    ├── Projects.js      # aba Projetos — grade de cards (botões Code/Demo)
+    └── Contact.js       # aba Contato — formulário (EmailJS) e canais
 ```
 
 > Todo o **conteúdo** (resumo, experiências, skills, idiomas, projetos) vive em `src/TEMPLATE.js`, separado por idioma. Para atualizar o portfólio, edita esse arquivo — não precisa tocar nos componentes.
@@ -61,19 +61,44 @@ Depois do deploy, o site atualiza em [ianncarvalho.github.io](https://ianncarval
 
 ## Customização
 
-Para adaptar o conteúdo, edite `src/TEMPLATE.js`. Cada card de projeto aceita:
+Para adaptar o conteúdo, edite `src/TEMPLATE.js`. O arquivo separa o que é
+**independente de idioma** do que é **traduzível**, então um campo neutro é
+definido **uma única vez**:
+
+- **Campos neutros (definidos uma vez):** URLs, `tech` (stack), `repos[].href`,
+  `demo`, `period`, o `avatar` e o `href` das publicações. Ficam nos blocos
+  compartilhados no topo do arquivo (`projectsBase`, `contactLinks`,
+  `publicationLinks`, `avatar`), alinhados por índice com cada idioma.
+- **Campos traduzíveis (um por idioma):** `title`, `category`, `highlights`,
+  os rótulos dos repositórios (`repoLabels`) e todo o texto do currículo. Ficam
+  em `content.en` / `content.pt`.
+
+O objeto final (`profile` + `projects`) é montado juntando os dois lados, no
+mesmo formato que os componentes consomem — nada muda para `App.js`, que segue
+escolhendo `data[lang]`.
+
+Para **adicionar um projeto**, acrescente uma entrada em `projectsBase` (campos
+neutros) e a entrada correspondente, no mesmo índice, no `projectsText` de cada
+idioma. Cada card de projeto tem esta forma depois de montado:
 
 ```js
 {
-    title: "Nome do Projeto",
-    category: "Software Engineering",   // agrupa os cards
-    period: "2025",
-    highlights: ["...", "..."],          // bullets
-    tech: ["React", "Go", "..."],        // chips de tecnologia
-    repo: "https://github.com/...",      // botão "Code" (opcional)
-    demo: "https://...",                 // botão "Demo" (opcional; null = sem botão)
+    title: "Nome do Projeto",             // traduzível (projectsText)
+    category: "Products & Systems",       // traduzível — agrupa os cards
+    period: "2025",                       // neutro (projectsBase)
+    highlights: ["...", "..."],           // traduzível — bullets
+    tech: ["React", "Go", "..."],         // neutro — chips de tecnologia
+    repos: [                              // neutro (href) + traduzível (label)
+        { label: "Frontend", href: "https://github.com/..." },
+        { label: "Backend",  href: "https://github.com/..." },
+    ],
+    demo: "https://...",                  // neutro — botão "Demo" (null = sem botão)
 }
 ```
+
+> Na fonte, o `href` de cada repositório vive em `projectsBase[i].repos` e o
+> `label` em `projectsText[i].repoLabels` (alinhados por índice); eles são
+> combinados em `repos: [{ label, href }]` na montagem.
 
 Para mudanças de layout ou estilo, edite os componentes em `src/components/` usando MUI.
 
