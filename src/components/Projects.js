@@ -78,11 +78,10 @@ function ProjectCard({ project, t }) {
                 </Stack>
             </CardContent>
             {(() => {
-                // Normalize to a list of {label, href}: prefer `repos` array,
-                // else fall back to a single `repo` labelled with t.code.
+                // Repo links come from the `repos` array of {label, href}.
                 const repoLinks = project.repos && project.repos.length > 0
                     ? project.repos
-                    : (project.repo ? [{ label: t.code, href: project.repo }] : []);
+                    : [];
                 if (repoLinks.length === 0 && !project.demo) return null;
                 // `disableSpacing` + gap only: CardActions' default spacing adds
                 // margin-left to every button but the first, so a wrapped row
