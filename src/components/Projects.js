@@ -82,7 +82,8 @@ function ProjectCard({ project, t }) {
                 const repoLinks = project.repos && project.repos.length > 0
                     ? project.repos
                     : [];
-                if (repoLinks.length === 0 && !project.demo) return null;
+                const demoLinks = project.demos || [];
+                if (repoLinks.length === 0 && !project.demo && demoLinks.length === 0) return null;
                 // `disableSpacing` + gap only: CardActions' default spacing adds
                 // margin-left to every button but the first, so a wrapped row
                 // started indented. columnGap 1.5 (12px) keeps the old in-row
@@ -115,6 +116,18 @@ function ProjectCard({ project, t }) {
                                 {t.demo}
                             </Button>
                         )}
+                        {demoLinks.map((d, i) => (
+                            <Button
+                                key={`demo-${i}`}
+                                size="small"
+                                startIcon={<LaunchIcon />}
+                                href={d.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {d.label}
+                            </Button>
+                        ))}
                     </CardActions>
                 );
             })()}
