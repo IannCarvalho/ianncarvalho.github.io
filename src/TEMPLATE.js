@@ -90,7 +90,12 @@ const projectsBase = [
             { href: "https://github.com/IannCarvalho/feedlens-panel" },
             { href: "https://github.com/IannCarvalho/feedlens-form" },
         ],
-        demo: null,
+        // Several demos per card: zipped with the language's `demoLabels`,
+        // like `repos`. The panel (feedlens.onrender.com) stays out until its
+        // login password is a strong one.
+        demos: [
+            { href: "https://feedlens-tau.vercel.app" },
+        ],
     },
 ];
 
@@ -109,6 +114,9 @@ const buildProjects = (projectsText) => projectsText.map((text, i) => {
         tech: text.tech || base.tech,
         repos: base.repos.map((r, j) => ({ label: text.repoLabels[j], href: r.href })),
         demo: base.demo,
+        // Labelled demos (a card with more than one). `demo` above stays the
+        // single unlabelled link the other cards use.
+        demos: (base.demos || []).map((d, j) => ({ label: text.demoLabels[j], href: d.href })),
     };
 });
 
@@ -309,10 +317,11 @@ const content = {
                 highlights: [
                     "Built a feedback-analysis platform across three independently deployable repositories — a Flask/Python backend, a Vue 3 + Vite + TypeScript operator panel, and a static Angular public form — each buildable, testable and shippable in isolation.",
                     "Engineered multi-provider BYOK analysis (OpenAI, Anthropic, Gemini, Groq, OpenRouter via LiteLLM): the operator's key is encrypted at rest with Fernet and used per request, so the deployed service embeds no third-party credentials.",
-                    "Classifies feedback by sentiment, flags spam and extracts the most-requested product features, with an AI-powered dashboard and scheduled weekly email summaries.",
+                    "Classifies feedback by sentiment, flags spam and extracts the most-requested product features, with an AI-powered dashboard and scheduled monthly email summaries.",
                     "Embedded the versioned, checksum-verified Vue panel into the backend image, served same-origin for session + CSRF without CORS (backend on Render, public form on Vercel).",
                 ],
                 repoLabels: ["Backend", "Panel", "Form"],
+                demoLabels: ["Form demo"],
             },
         ],
     },
@@ -496,10 +505,11 @@ const content = {
                 highlights: [
                     "Construí uma plataforma de análise de feedback em três repositórios implantáveis de forma independente — um backend Flask/Python, um painel de operador em Vue 3 + Vite + TypeScript e um formulário público estático em Angular — cada um construível, testável e implantável isoladamente.",
                     "Projetei a análise multi-provedor BYOK (OpenAI, Anthropic, Gemini, Groq, OpenRouter via LiteLLM): a chave do operador é cifrada em repouso com Fernet e usada por requisição, de modo que o serviço implantado não embute credenciais de terceiros.",
-                    "Classifica o feedback por sentimento, sinaliza spam e extrai as funcionalidades de produto mais pedidas, com um dashboard apoiado em IA e resumos semanais por e-mail agendados.",
+                    "Classifica o feedback por sentimento, sinaliza spam e extrai as funcionalidades de produto mais pedidas, com um dashboard apoiado em IA e resumos mensais por e-mail agendados.",
                     "Embuti o painel Vue versionado e verificado por checksum na imagem do backend, servido na mesma origem para sessão + CSRF sem CORS (backend no Render, formulário público no Vercel).",
                 ],
                 repoLabels: ["Backend", "Painel", "Formulário"],
+                demoLabels: ["Demo do formulário"],
             },
         ],
     },
