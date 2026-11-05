@@ -90,12 +90,7 @@ const projectsBase = [
             { href: "https://github.com/IannCarvalho/feedlens-panel" },
             { href: "https://github.com/IannCarvalho/feedlens-form" },
         ],
-        // Several demos per card: zipped with the language's `demoLabels`,
-        // like `repos`. The panel (feedlens.onrender.com) stays out until its
-        // login password is a strong one.
-        demos: [
-            { href: "https://feedlens-tau.vercel.app" },
-        ],
+        demo: null,
     },
 ];
 
@@ -114,9 +109,6 @@ const buildProjects = (projectsText) => projectsText.map((text, i) => {
         tech: text.tech || base.tech,
         repos: base.repos.map((r, j) => ({ label: text.repoLabels[j], href: r.href })),
         demo: base.demo,
-        // Labelled demos (a card with more than one). `demo` above stays the
-        // single unlabelled link the other cards use.
-        demos: (base.demos || []).map((d, j) => ({ label: text.demoLabels[j], href: d.href })),
     };
 });
 
@@ -291,7 +283,7 @@ const content = {
             },
             {
                 title: "VetFlow — Conversational AI Agent & MCP Server",
-                category: "Applied AI/ML",
+                category: "Products & Systems",
                 highlights: [
                     "Built a multi-provider LLM agent (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) that answers natural-language questions over a vet clinic's real data by running a tool-use loop — grounded in the system, never hallucinated.",
                     "Engineered a standalone Model Context Protocol (MCP) server that exposes the Go backend as reusable tools, so any MCP client (including Claude Desktop) drives the product through its authenticated HTTP API — never the database directly.",
@@ -321,7 +313,6 @@ const content = {
                     "Embedded the versioned, checksum-verified Vue panel into the backend image, served same-origin for session + CSRF without CORS (backend on Render, public form on Vercel).",
                 ],
                 repoLabels: ["Backend", "Panel", "Form"],
-                demoLabels: ["Form demo"],
             },
         ],
     },
@@ -478,7 +469,7 @@ const content = {
             },
             {
                 title: "VetFlow — Agente de IA Conversacional & Servidor MCP",
-                category: "IA/ML Aplicada",
+                category: "Produtos & Sistemas",
                 highlights: [
                     "Construí um agente LLM multi-provedor (Claude, GPT, Gemini, Amazon Bedrock via LiteLLM) que responde perguntas em linguagem natural sobre os dados reais de uma clínica veterinária executando um loop de uso de ferramentas — ancorado no sistema, nunca alucinado.",
                     "Projetei um servidor Model Context Protocol (MCP) autônomo que expõe o backend Go como ferramentas reutilizáveis, de modo que qualquer cliente MCP (inclusive o Claude Desktop) opere o produto pela API HTTP autenticada — nunca pelo banco direto.",
@@ -509,7 +500,6 @@ const content = {
                     "Embuti o painel Vue versionado e verificado por checksum na imagem do backend, servido na mesma origem para sessão + CSRF sem CORS (backend no Render, formulário público no Vercel).",
                 ],
                 repoLabels: ["Backend", "Painel", "Formulário"],
-                demoLabels: ["Demo do formulário"],
             },
         ],
     },
